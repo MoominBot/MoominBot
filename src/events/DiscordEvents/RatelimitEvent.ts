@@ -9,7 +9,7 @@ export default class extends BaseEvent {
     }
 
     public override execute(ratelimit: RateLimitData) {
-        logger.warn(stripIndents`Rate limited by discord:
+        logger.warn(stripIndents`Rate limited by Discord:
             Global: ${ratelimit.global}
             Route: ${ratelimit.route}
             Path: ${ratelimit.path}

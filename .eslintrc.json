@@ -21,6 +21,7 @@
         "eqeqeq": "error",
         "no-bitwise": "error",
         "no-eq-null": "error",
-        "no-empty": "error"
+        "no-empty": "error",
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 }

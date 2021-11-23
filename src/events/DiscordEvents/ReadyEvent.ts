@@ -1,5 +1,6 @@
 import type { Client } from "discord.js";
 import BaseEvent from "../../base/BaseEvent.js";
+import logger from "../../logger.js";
 
 export default class extends BaseEvent {
     constructor() {
@@ -7,8 +8,6 @@ export default class extends BaseEvent {
     }
 
     public override execute(client: Client<true>) {
-        // TODO: use logger instead of console
-        // eslint-disable-next-line no-console
-        console.log(`Logged in as ${client.user.tag}!`);
+        logger.info(`Logged in as ${client.user.tag}!`);
     }
 }

@@ -12,7 +12,7 @@ export default class extends BaseEvent {
     }
 
     async execute(interaction: Interaction) {
-        if (interaction.isCommand()) {
+        if (interaction.isCommand() || interaction.isContextMenu()) {
             const command = this.commands.get(interaction.commandName);
             if (!command) return;
 

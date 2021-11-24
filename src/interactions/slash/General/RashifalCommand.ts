@@ -21,10 +21,12 @@ const commandConfig = {
     options: [
         {
             name: "rashi",
-            description: "Name of the rashi",
+            description: "Name of the Rashi",
             required: true,
-            type: "STRING"
-            // choices: []
+            type: "STRING",
+            choices: Object.entries(RashifalMap).map(([k, v]) => {
+                return { name: k, value: v };
+            })
         }
     ]
 } as ApplicationCommandData;

@@ -1,8 +1,10 @@
-import BaseCommand from "../../base/BaseCommand.js";
-import { inject, injectable } from "tsyringe";
-import { kClient } from "../../constants.js";
 import { Client, CommandInteraction, MessageEmbed } from "discord.js";
+import { inject, injectable } from "tsyringe";
+
 import Rashifal from "./utils/Rashifal.js";
+
+import BaseCommand from "#base/BaseCommand";
+import { kClient } from "#utils/constants";
 
 @injectable()
 export default class extends BaseCommand {

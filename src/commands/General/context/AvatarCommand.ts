@@ -1,5 +1,6 @@
 import { MessageEmbed, ContextMenuInteraction, DynamicImageFormat } from "discord.js";
-import BaseCommand from "../../../base/BaseCommand.js";
+
+import BaseCommand from "#base/BaseCommand";
 
 export default class extends BaseCommand {
     constructor() {

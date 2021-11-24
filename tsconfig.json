@@ -20,7 +20,12 @@
         "noUnusedLocals": true,
         "importHelpers": true,
         "newLine": "lf",
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "baseUrl": ".",
+        "paths": {
+          "#base/*": ["src/base/*"],
+          "#utils/*": ["src/utils/*"]
+        }
     },
     "include": [
         "src/**/*"

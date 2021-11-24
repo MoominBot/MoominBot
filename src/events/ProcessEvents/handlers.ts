@@ -1,4 +1,4 @@
-import logger from "../../logger.js";
+import logger from "#utils/logger";
 
 process.on("unhandledRejection", (reason) => {
     logger.error(`Unhandled promise rejection:\n${reason}`);

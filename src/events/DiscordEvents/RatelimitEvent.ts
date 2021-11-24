@@ -1,7 +1,8 @@
 import type { RateLimitData } from "discord.js";
-import BaseEvent from "../../base/BaseEvent.js";
-import logger from "../../logger.js";
 import { stripIndents } from "common-tags";
+
+import BaseEvent from "#base/BaseEvent";
+import logger from "#utils/logger";
 
 export default class extends BaseEvent {
     constructor() {

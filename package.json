@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/MoominBot/MoominBot#readme",
   "devDependencies": {
+    "@types/common-tags": "^1.8.1",
     "@types/node": "^16.11.9",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
@@ -40,6 +41,7 @@
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "bufferutil": "^4.0.5",
+    "common-tags": "^1.8.2",
     "cross-env": "^7.0.3",
     "dayjs": "^1.10.7",
     "discord-api-types": "^0.24.0",

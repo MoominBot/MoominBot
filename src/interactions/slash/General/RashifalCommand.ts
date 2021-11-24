@@ -8,7 +8,7 @@ const commandConfig = {
             name: "rashi",
             description: "Name of the rashi",
             required: true,
-            type: "STRING",
+            type: "STRING"
             // choices: []
         }
     ]

@@ -42,12 +42,12 @@ container.register(kCommands, { useValue: commandsStore });
 
 const events = readdirp(`${__dirname(import.meta.url)}/events/DiscordEvents`, {
     fileFilter: ["*.js"],
-    directoryFilter: ["!typings"]
+    directoryFilter: ["!typings", "!utils"]
 });
 
 const commands = readdirp(`${__dirname(import.meta.url)}/commands`, {
     fileFilter: ["*.js"],
-    directoryFilter: ["!typings"]
+    directoryFilter: ["!typings", "!utils"]
 });
 
 for await (const eventFile of events) {

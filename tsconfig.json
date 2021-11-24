@@ -24,7 +24,8 @@
         "baseUrl": ".",
         "paths": {
           "#base/*": ["src/base/*"],
-          "#utils/*": ["src/utils/*"]
+          "#utils/*": ["src/utils/*"],
+          "#interactions/*": ["src/interactions/*"]
         }
     },
     "include": [

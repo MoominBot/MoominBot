@@ -1,4 +1,5 @@
 import { ApplicationCommandData } from "discord.js";
+import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
 
 export enum RashifalMap {
     "मेष" = "ARIES",
@@ -23,7 +24,7 @@ const commandConfig = {
             name: "rashi",
             description: "Name of the Rashi",
             required: true,
-            type: "STRING",
+            type: ApplicationCommandOptionTypes.STRING,
             choices: Object.entries(RashifalMap).map(([k, v]) => {
                 return { name: k, value: v };
             })

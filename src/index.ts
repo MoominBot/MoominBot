@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { config } from "dotenv";
 import "./events/ProcessEvents/handlers.js";
 import { container } from "tsyringe";
-import { kClient, kCommands } from "./constants.js";
+import { kClient, kCommands, kRedis } from "./constants.js";
 import Discord from "discord.js";
 import readdirp from "readdirp";
 import BaseEvent from "./base/BaseEvent.js";
@@ -10,6 +10,7 @@ import BaseCommand from "./base/BaseCommand.js";
 import DeployCommand from "./deployCommands.js";
 import { __dirname } from "./utils/dirname.js";
 import logger from "./logger.js";
+import redis from "./database/redis.js";
 
 config();
 
@@ -39,6 +40,7 @@ const commandsStore = new Discord.Collection<string, BaseCommand>();
 
 container.register(kClient, { useValue: client });
 container.register(kCommands, { useValue: commandsStore });
+container.register(kRedis, { useValue: redis });
 
 const events = readdirp(`${__dirname(import.meta.url)}/events/DiscordEvents`, {
     fileFilter: ["*.js"],

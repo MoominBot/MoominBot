@@ -27,6 +27,7 @@
   "homepage": "https://github.com/MoominBot/MoominBot#readme",
   "devDependencies": {
     "@types/common-tags": "^1.8.1",
+    "@types/ioredis": "^4.28.1",
     "@types/node": "^16.11.9",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
@@ -48,6 +49,7 @@
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
     "erlpack": "discord/erlpack",
+    "ioredis": "^4.28.1",
     "readdirp": "^3.6.0",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",

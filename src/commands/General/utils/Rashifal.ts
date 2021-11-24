@@ -1,10 +1,12 @@
-import type { Redis } from "ioredis";
-import { kRedis } from "../../../constants.js";
 import { container, inject, injectable } from "tsyringe";
+import type { Redis } from "ioredis";
 import fetch from "node-fetch";
 import cheerio from "cheerio";
+
 import { RashifalMap } from "../../../interactions/slash/General/RashifalCommand.js";
-import logger from "../../../logger.js";
+
+import { kRedis } from "#utils/constants";
+import logger from "#utils/logger";
 
 export interface RashifalData {
     name: string;

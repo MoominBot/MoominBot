@@ -1,15 +1,20 @@
 import "reflect-metadata";
 import { config } from "dotenv";
+
 import "./events/ProcessEvents/handlers.js";
+
 import { container } from "tsyringe";
-import { kClient, kCommands, kRedis } from "./constants.js";
 import Discord from "discord.js";
 import readdirp from "readdirp";
-import BaseEvent from "./base/BaseEvent.js";
-import BaseCommand from "./base/BaseCommand.js";
+
+import { kClient, kCommands, kRedis } from "#utils/constants";
+import { __dirname } from "#utils/dirname";
+import logger from "#utils/logger";
+
+import BaseEvent from "#base/BaseEvent";
+import BaseCommand from "#base/BaseCommand";
+
 import DeployCommand from "./deployCommands.js";
-import { __dirname } from "./utils/dirname.js";
-import logger from "./logger.js";
 import redis from "./database/redis.js";
 
 config();

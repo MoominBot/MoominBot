@@ -1,9 +1,11 @@
 import { Collection, Interaction } from "discord.js";
-import BaseEvent from "../../base/BaseEvent.js";
-import BaseCommand from "../../base/BaseCommand.js";
-import logger from "../../logger.js";
 import { injectable, inject } from "tsyringe";
-import { kCommands } from "../../constants.js";
+
+import BaseCommand from "#base/BaseCommand.js";
+import BaseEvent from "#base/BaseEvent";
+
+import { kCommands } from "#utils/constants";
+import logger from "#utils/logger";
 
 @injectable()
 export default class extends BaseEvent {

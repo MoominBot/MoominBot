@@ -1,9 +1,10 @@
-import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v9";
 import { ApplicationCommandData } from "discord.js";
+import { Routes } from "discord-api-types/v9";
+import { REST } from "@discordjs/rest";
 import readdirp from "readdirp";
-import logger from "./logger.js";
-import { __dirname } from "./utils/dirname.js";
+
+import { __dirname } from "#utils/dirname";
+import logger from "#utils/logger";
 
 export default async function DeployCommands() {
     const rest = new REST({

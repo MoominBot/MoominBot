@@ -5,6 +5,10 @@
   "main": "build/index.js",
   "private": true,
   "type": "module",
+  "imports": {
+    "#base/*": "./build/base/*.js",
+    "#utils/*": "./build/utils/*.js"
+  },
   "scripts": {
     "build": "rimraf build && tsc",
     "build:check": "tsc --noEmit",

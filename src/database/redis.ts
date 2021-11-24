@@ -1,5 +1,6 @@
 import Redis from "ioredis";
-import logger from "../logger.js";
+
+import logger from "#utils/logger";
 
 const redis = new Redis(process.env.REDIS_HOST!, {
     lazyConnect: true

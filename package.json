@@ -27,7 +27,7 @@
   "homepage": "https://github.com/MoominBot/MoominBot#readme",
   "devDependencies": {
     "@types/common-tags": "^1.8.1",
-    "@types/node": "^16.11.9",
+    "@types/node": "^16.11.10",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.3.0",

@@ -19,7 +19,7 @@ export default class extends BaseCommand {
                     .join(" ")
             )
             .join("\n");
-        const member = await interaction.guild?.members.fetch(user.id)!;
+        const member = await interaction.guild!.members.fetch(user.id)!;
         const roles = member.roles.cache
             .sort((a, b) => b.position - a.position)
             .map((r) => r)

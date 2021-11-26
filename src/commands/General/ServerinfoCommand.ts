@@ -26,7 +26,7 @@ export default class extends BaseCommand {
             .setAuthor(`Info of ${interaction.guild?.name} Server`)
             .setFooter(`Requested by ${interaction.user.tag}`)
             .setTimestamp()
-            .setThumbnail(interaction.guild?.iconURL({ dynamic: true })!)
+            .setThumbnail(interaction.guild!.iconURL({ dynamic: true })!)
             .addFields(
                 { name: "ID", value: `${interaction.guild?.id}`, inline: true },
                 {
@@ -41,7 +41,7 @@ export default class extends BaseCommand {
                 },
                 {
                     name: "Created at",
-                    value: `<t:${Math.floor(interaction.guild?.createdTimestamp! / 1000)}>`,
+                    value: `<t:${Math.floor(interaction.guild!.createdTimestamp! / 1000)}>`,
                     inline: true
                 },
                 {

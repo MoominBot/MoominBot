@@ -21,7 +21,7 @@ class Rashifal {
     public TIMEOUT = 3600 * 3;
     constructor(@inject(kRedis) public readonly redis: Redis) {
         this.scrape();
-        setInterval(this.scrape, this.TIMEOUT * 1000).unref();
+        setInterval(this.scrape.bind(this), this.TIMEOUT * 1000).unref();
     }
 
     public async get(rashi: string) {

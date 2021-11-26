@@ -23,12 +23,10 @@
         "forceConsistentCasingInFileNames": true,
         "baseUrl": ".",
         "paths": {
-          "#base/*": ["src/base/*"],
-          "#utils/*": ["src/utils/*"],
-          "#interactions/*": ["src/interactions/*"]
+            "#base/*": ["src/base/*"],
+            "#utils/*": ["src/utils/*"],
+            "#interactions/*": ["src/interactions/*"]
         }
     },
-    "include": [
-        "src/**/*"
-    ]
+    "include": ["src/**/*"]
 }

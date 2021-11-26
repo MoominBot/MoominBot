@@ -17,7 +17,7 @@
     "start": "cross-env NODE_ENV=production npm run build && node build/index.js",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
-    "format": "prettier --write src/**/*.{js,ts,jsx,tsx,json}",
+    "format": "prettier --write src/**/*.ts",
     "prepare": "husky install"
   },
   "repository": {

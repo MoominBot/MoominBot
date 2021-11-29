@@ -7,7 +7,7 @@
         "outDir": "./build",
         "strict": true,
         "strictNullChecks": true,
-        "resolveJsonModule": false,
+        "resolveJsonModule": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "removeComments": true,
@@ -28,5 +28,8 @@
             "#interactions/*": ["src/interactions/*"]
         }
     },
-    "include": ["src/**/*"]
+    "include": [
+        "src/**/*",
+        "src/locales/**/*.json"
+    ]
 }

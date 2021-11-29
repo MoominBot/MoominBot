@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { config } from "dotenv";
 
 import "./events/ProcessEvents/handlers.js";
+import "#utils/i18n";
 
 import { container } from "tsyringe";
 import Discord from "discord.js";

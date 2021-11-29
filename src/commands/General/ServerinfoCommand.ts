@@ -1,6 +1,6 @@
 import BaseCommand from "#base/BaseCommand";
 import { inject, injectable } from "tsyringe";
-import { kClient } from "#utils/constants";
+import { kClient } from "#utils/tokens";
 import { Client, CommandInteraction, MessageEmbed } from "discord.js";
 
 @injectable()

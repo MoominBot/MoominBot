@@ -2,12 +2,12 @@ import i18next from "i18next";
 import Backend from "i18next-fs-backend";
 
 import { join } from "path";
-import { readdirSync, lstatSync } from "fs";
+import { readdir, lstat } from "fs/promises";
 import { __dirname } from "#utils/dirname";
 
-const preloadData = readdirSync(join(__dirname(import.meta.url), "../locales")).filter((fileName) => {
+const preloadData = (await readdir(join(__dirname(import.meta.url), "../locales"))).filter(async (fileName) => {
     const joinedPath = join(join(__dirname(import.meta.url), "../locales"), fileName);
-    const isDirectory = lstatSync(joinedPath).isDirectory();
+    const isDirectory = (await lstat(joinedPath)).isDirectory();
     return isDirectory;
 });
 

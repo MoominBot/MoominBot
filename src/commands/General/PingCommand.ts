@@ -19,7 +19,7 @@ export default class extends BaseCommand {
             .setTitle("Bot Latency")
             .setColor("BLURPLE")
             .setThumbnail(this.client.user.displayAvatarURL())
-            .setDescription(`⏱️ | Pong! Took \`${timeout}ms\``);
+            .setDescription(`⏱️ | Pong!\nHTTP: \`${timeout}ms\`\nWebSocket: \`${Math.floor(this.client.ws.ping)}ms\``);
 
         await interaction.reply({ embeds: [embed] });
     }

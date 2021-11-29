@@ -19,7 +19,7 @@ cron.schedule("*/10 * * * *", async () => {
         const prev = parseJSON<RONBPost>((await redis.get("ronbpost")) as string);
         const post = await ronbpost();
         if (!post || (prev !== null && prev.url === post.url)) return;
-        await redis.setex("ronbpost", 600, JSON.stringify(post));
+        await redis.set("ronbpost", JSON.stringify(post));
 
         const channel = client.channels.cache.get(RONBAnnouncementChannel);
 
@@ -27,14 +27,14 @@ cron.schedule("*/10 * * * *", async () => {
             const embed = new MessageEmbed()
                 .setTitle("View this post on Facebook")
                 .setURL(post.url)
-                .setAuthor(post.author.name, post.author.icon, post.author.url)
+                .setAuthor(post.author.name, post.author.icon || "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96", post.author.url)
                 .setColor("RED")
                 .setDescription(post.content)
+                .setThumbnail(post.author.icon || "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96")
                 .setFooter("MoominBot", client.user.displayAvatarURL())
                 .setTimestamp(post.createdAt || null);
 
             if (post.image?.url) embed.setImage(post.image.url);
-            if (post.author.icon) embed.setThumbnail(post.author.icon);
 
             await channel
                 .send({ embeds: [embed] })

@@ -25,7 +25,8 @@
         "paths": {
             "#base/*": ["src/base/*"],
             "#utils/*": ["src/utils/*"],
-            "#interactions/*": ["src/interactions/*"]
+            "#interactions/*": ["src/interactions/*"],
+            "#jobs/*": ["src/jobs/*"]
         }
     },
     "include": ["src/**/*"]

@@ -3,9 +3,9 @@ import type { Redis } from "ioredis";
 import fetch from "node-fetch";
 import cheerio from "cheerio";
 
-import { RashifalMap } from "#interactions/slash/General/RashifalCommand.js";
+import { RashifalMap } from "#interactions/slash/General/RashifalCommand";
 
-import { kRedis } from "#utils/constants";
+import { kRedis } from "#utils/tokens";
 import logger from "#utils/logger";
 
 export interface RashifalData {
@@ -18,10 +18,9 @@ export interface RashifalData {
 @injectable()
 class Rashifal {
     public BASE_URL = "https://www.hamropatro.com";
-    public TIMEOUT = 3600 * 3;
+    public TIMEOUT = 1800;
     constructor(@inject(kRedis) public readonly redis: Redis) {
         this.scrape();
-        setInterval(this.scrape.bind(this), this.TIMEOUT * 1000).unref();
     }
 
     public async get(rashi: string) {

@@ -4,7 +4,7 @@ import { injectable, inject } from "tsyringe";
 import BaseCommand from "#base/BaseCommand.js";
 import BaseEvent from "#base/BaseEvent";
 
-import { kCommands } from "#utils/constants";
+import { kCommands } from "#utils/tokens";
 import logger from "#utils/logger";
 
 @injectable()

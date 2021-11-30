@@ -8,7 +8,8 @@ import { kClient } from "#utils/tokens";
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>) {
         super({
-            name: "ping"
+            name: "ping",
+            category: "General"
         });
     }
 

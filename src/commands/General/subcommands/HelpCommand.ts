@@ -1,3 +1,4 @@
+import BaseCommand from "#base/BaseCommand";
 import { ApplicationCommand, Client, Collection, CommandInteraction, Guild, MessageEmbed } from "discord.js";
 
 interface CommandsInterface {
@@ -6,7 +7,13 @@ interface CommandsInterface {
     guild: Guild;
 }
 
-export async function HelpCommandSub(client: Client<true>, interaction: CommandInteraction, commandName: string, commands: CommandsInterface) {
+export async function HelpCommandSub(
+    client: Client<true>,
+    interaction: CommandInteraction,
+    commandName: string,
+    commands: CommandsInterface,
+    cache: Collection<string, BaseCommand>
+) {
     if (interaction.replied) return;
     if (!interaction.deferred) await interaction.deferReply();
     const command = commands.cache.find((x) => x.name === commandName);
@@ -18,6 +25,7 @@ export async function HelpCommandSub(client: Client<true>, interaction: CommandI
         .addField("Name", command.name || commandName)
         .addField("Description", command.description || "N/A")
         .addField("Auto Enabled", command.defaultPermission ? "✅" : "❌")
+        .addField("Category", cache.find((x) => x.name.toLowerCase() === (command.name || commandName).toLowerCase())?.category || "Other")
         .addField("Options", command.options.map((m) => `\`${m.name}\``).join(", ") || "N/A")
         .setColor("BLURPLE")
         .setFooter("Command created:")

@@ -5,7 +5,8 @@ import BaseCommand from "#base/BaseCommand";
 export default class extends BaseCommand {
     constructor() {
         super({
-            name: "Avatar"
+            name: "Avatar",
+            category: "General"
         });
     }
 

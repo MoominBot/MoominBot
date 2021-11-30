@@ -16,14 +16,16 @@ import chunkBy from "lodash/chunk.js";
 import { DiscordComponents, MessageActionRow, MessageButton } from "discord.tsx";
 
 import BaseCommand from "#base/BaseCommand";
-import { kClient } from "#utils/tokens";
+import { kClient, kCommands } from "#utils/tokens";
 import { HelpCommandSub } from "./subcommands/HelpCommand.js";
+import { stripIndents } from "common-tags";
 
 interface CommandCollectionInterface {
     name: string;
     description: string;
     type: string;
     autoEnabled: boolean;
+    category: string;
 }
 
 interface StateInterface {
@@ -35,9 +37,10 @@ export default class extends BaseCommand {
     public state: StateInterface = {
         currentPage: []
     };
-    constructor(@inject(kClient) public readonly client: Client<true>) {
+    constructor(@inject(kClient) public readonly client: Client<true>, @inject(kCommands) public readonly commands: Collection<string, BaseCommand>) {
         super({
-            name: "help"
+            name: "help",
+            category: "General"
         });
     }
 
@@ -66,7 +69,7 @@ export default class extends BaseCommand {
         if (interaction.isAutocomplete()) return this.handleAutoComplete(interaction, commands.cache);
         const commandName = interaction.options.getString("command", false);
         if (commandName) {
-            return HelpCommandSub(this.client, interaction, commandName, commands);
+            return HelpCommandSub(this.client, interaction, commandName, commands, this.commands);
         }
 
         const commandsCollection = commands.cache.map((m) => ({
@@ -77,7 +80,8 @@ export default class extends BaseCommand {
                 USER: "User Context Menu",
                 MESSAGE: "Message Context Menu"
             }[m.type],
-            autoEnabled: m.defaultPermission
+            autoEnabled: m.defaultPermission,
+            category: this.commands.find((x) => x.name.toLowerCase() === m.name.toLowerCase())?.category || "Other"
         })) as CommandCollectionInterface[];
         const pages = chunkBy(commandsCollection, 5);
         this.setState({ currentPage: pages[0] });
@@ -180,7 +184,10 @@ export default class extends BaseCommand {
             .addFields(
                 page.map((m) => ({
                     name: m.name,
-                    value: `${m.description}\n**Auto Enabled**: ${m.autoEnabled ? "✅" : "❌"}\n**Command Type**: ${m.type}`,
+                    value: stripIndents`${m.description}
+                    **Auto Enabled**: ${m.autoEnabled ? "✅" : "❌"}
+                    **Command Type**: ${m.type}
+                    **Command Category**: ${m.category}`,
                     inline: false
                 }))
             )

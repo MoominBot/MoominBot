@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { config } from "dotenv";
 
-import "./loadTSX.js";
+import "./tsxLoader.js";
 
 import "./events/ProcessEvents/handlers.js";
 

@@ -13,7 +13,7 @@ const client = container.resolve<Client<true>>(kClient);
 
 logger.info("[CRON] Job ronbpost loaded!");
 
-cron.schedule("*/10 * * * *", async () => {
+cron.schedule("*/5 * * * *", async () => {
     logger.info("[CRON] running ronb job");
     try {
         const prev = parseJSON<RONBPost>((await redis.get("ronbpost")) as string);

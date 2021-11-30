@@ -49,12 +49,12 @@ container.register(kRedis, { useValue: redis });
 
 const events = readdirp(`${__dirname(import.meta.url)}/events/DiscordEvents`, {
     fileFilter: ["*.js"],
-    directoryFilter: ["!typings", "!utils"]
+    directoryFilter: ["!typings", "!utils", "!subcommands"]
 });
 
 const commands = readdirp(`${__dirname(import.meta.url)}/commands`, {
     fileFilter: ["*.js"],
-    directoryFilter: ["!typings", "!utils"]
+    directoryFilter: ["!typings", "!utils", "!subcommands"]
 });
 
 for await (const eventFile of events) {

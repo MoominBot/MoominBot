@@ -18,7 +18,7 @@
     "start": "cross-env NODE_ENV=production npm run build && node build/index.js",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
-    "format": "prettier --write src/**/*.ts",
+    "format": "prettier --write src/**/*.{ts,tsx}",
     "prepare": "husky install"
   },
   "repository": {
@@ -34,6 +34,7 @@
   "devDependencies": {
     "@types/common-tags": "^1.8.1",
     "@types/ioredis": "^4.28.1",
+    "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.10",
     "@types/node-cron": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
@@ -56,9 +57,12 @@
     "dayjs": "^1.10.7",
     "discord-api-types": "^0.25.0",
     "discord.js": "^13.3.1",
+    "discord.tsx": "^2.0.0",
     "dotenv": "^10.0.0",
     "erlpack": "discord/erlpack",
+    "fuse.js": "^6.4.6",
     "ioredis": "^4.28.1",
+    "lodash": "^4.17.21",
     "node-cron": "^3.0.0",
     "node-fetch": "^3.1.0",
     "prisma": "^3.5.0",

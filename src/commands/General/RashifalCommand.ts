@@ -10,7 +10,8 @@ import { kClient } from "#utils/tokens";
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>) {
         super({
-            name: "rashifal"
+            name: "rashifal",
+            category: "General"
         });
     }
 

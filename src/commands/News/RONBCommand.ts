@@ -11,7 +11,8 @@ import ronbpost, { RONBPost } from "ronbpost";
 export default class extends BaseCommand {
     constructor(@inject(kRedis) public readonly redis: Redis) {
         super({
-            name: "ronb"
+            name: "ronb",
+            category: "News"
         });
     }
 

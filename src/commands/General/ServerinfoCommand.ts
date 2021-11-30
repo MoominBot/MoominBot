@@ -7,7 +7,8 @@ import { Client, CommandInteraction, MessageEmbed } from "discord.js";
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>) {
         super({
-            name: "serverinfo"
+            name: "serverinfo",
+            category: "General"
         });
     }
 

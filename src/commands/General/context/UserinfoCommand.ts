@@ -1,10 +1,11 @@
 import { ContextMenuInteraction, MessageEmbed } from "discord.js";
-import BaseCommand from "#base/BaseCommand.js";
+import BaseCommand from "#base/BaseCommand";
 
 export default class extends BaseCommand {
     constructor() {
         super({
-            name: "Userinfo"
+            name: "Userinfo",
+            category: "General"
         });
     }
 

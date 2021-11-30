@@ -4,7 +4,7 @@ import { injectable, inject } from "tsyringe";
 import BaseCommand from "#base/BaseCommand.js";
 import BaseEvent from "#base/BaseEvent";
 
-import { kCommands } from "#utils/constants";
+import { kCommands } from "#utils/tokens";
 import logger from "#utils/logger";
 
 @injectable()
@@ -14,7 +14,7 @@ export default class extends BaseEvent {
     }
 
     async execute(interaction: Interaction) {
-        if (interaction.isCommand() || interaction.isContextMenu()) {
+        if (interaction.isCommand() || interaction.isContextMenu() || interaction.isAutocomplete()) {
             const command = this.commands.get(interaction.commandName);
             if (!command) return;
 
@@ -23,7 +23,16 @@ export default class extends BaseEvent {
             } catch (err) {
                 const error = err as Error;
                 logger.error(`[${interaction.commandName}] Command execution error:\n${error.stack || error}`);
+                await this.replyError(interaction, `❌ | Command ${interaction.commandName} failed to execute!`).catch(() => null);
             }
+        }
+    }
+
+    async replyError(interaction: Interaction, message: string) {
+        if (interaction.isAutocomplete() && !interaction.responded) interaction.respond([]);
+        if ((interaction.isCommand() || interaction.isContextMenu()) && (!interaction.replied || !interaction.deferred)) {
+            if (interaction.deferred) return await interaction.followUp({ content: message, ephemeral: true });
+            return await interaction.reply({ content: message, ephemeral: true });
         }
     }
 }

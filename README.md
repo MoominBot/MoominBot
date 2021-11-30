@@ -2,10 +2,22 @@
 
 An enhanced and ready to use Nepali Discord Bot.
 
+# Features
+
+- Nepali horoscope provided by **[HamroPatro](https://hamropatro.com)**
+- **[Routine of Nepal banda](https://www.ronbpost.com)** feed
+
+and much more
+
+# Requirements
+
+- **[PostgreSQL](https://www.postgresql.org)** server up and running
+- **[Redis](https://redis.io)** server up and running (or **[Memurai](https://www.memurai.com)** for windows)
+
 # How to run
 
 - rename `.env.example` to `.env`
-- use your bot token
+- update `.env` with real credentials
 - run `npm run dev` to start in development mode and `npm run start` to run in production mode
 
 # LICENSE

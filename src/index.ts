@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { config } from "dotenv";
 
+import "./tsxLoader.js";
+
 import "./events/ProcessEvents/handlers.js";
 import "#utils/i18n";
 
@@ -8,7 +10,7 @@ import { container } from "tsyringe";
 import Discord from "discord.js";
 import readdirp from "readdirp";
 
-import { kClient, kCommands, kRedis } from "#utils/constants";
+import { kClient, kCommands, kRedis } from "#utils/tokens";
 import { __dirname } from "#utils/dirname";
 import logger from "#utils/logger";
 
@@ -50,12 +52,12 @@ container.register(kRedis, { useValue: redis });
 
 const events = readdirp(`${__dirname(import.meta.url)}/events/DiscordEvents`, {
     fileFilter: ["*.js"],
-    directoryFilter: ["!typings", "!utils"]
+    directoryFilter: ["!typings", "!utils", "!subcommands"]
 });
 
 const commands = readdirp(`${__dirname(import.meta.url)}/commands`, {
     fileFilter: ["*.js"],
-    directoryFilter: ["!typings", "!utils"]
+    directoryFilter: ["!typings", "!utils", "!subcommands"]
 });
 
 for await (const eventFile of events) {
@@ -72,3 +74,4 @@ for await (const commandFile of commands) {
 
 await DeployCommand();
 await client.login();
+await import("./jobsLoader.js");

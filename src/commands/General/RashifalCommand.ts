@@ -1,16 +1,17 @@
 import { Client, CommandInteraction, MessageEmbed } from "discord.js";
 import { inject, injectable } from "tsyringe";
 
-import Rashifal from "./utils/Rashifal.js";
+import Rashifal from "#utils/Rashifal";
 
 import BaseCommand from "#base/BaseCommand";
-import { kClient } from "#utils/constants";
+import { kClient } from "#utils/tokens";
 
 @injectable()
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>) {
         super({
-            name: "rashifal"
+            name: "rashifal",
+            category: "General"
         });
     }
 

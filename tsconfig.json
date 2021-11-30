@@ -25,11 +25,16 @@
         "paths": {
             "#base/*": ["src/base/*"],
             "#utils/*": ["src/utils/*"],
-            "#interactions/*": ["src/interactions/*"]
-        }
+            "#interactions/*": ["src/interactions/*"],
+            "#jobs/*": ["src/jobs/*"]
+        },
+        "jsxFactory": "DiscordComponents.createComponent",
+        "jsx": "react",
+        "jsxFragmentFactory": "DiscordComponents.fragment"
     },
     "include": [
         "src/**/*",
-        "src/locales/**/*.json"
+        "src/locales/**/*.json",
+        "global.d.ts"
     ]
 }

@@ -60,6 +60,7 @@
     "discord.tsx": "^2.0.0",
     "dotenv": "^10.0.0",
     "erlpack": "discord/erlpack",
+    "fuse.js": "^6.4.6",
     "ioredis": "^4.28.1",
     "lodash": "^4.17.21",
     "node-cron": "^3.0.0",

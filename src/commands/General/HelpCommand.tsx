@@ -1,4 +1,15 @@
-import { ButtonInteraction, Client, CommandInteraction, InteractionCollector, Message, MessageEmbed, Snowflake } from "discord.js";
+import {
+    ApplicationCommand,
+    AutocompleteInteraction,
+    ButtonInteraction,
+    Client,
+    Collection,
+    CommandInteraction,
+    InteractionCollector,
+    Message,
+    MessageEmbed,
+    Snowflake
+} from "discord.js";
 import { inject, injectable } from "tsyringe";
 import chunkBy from "lodash/chunk.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -6,6 +17,7 @@ import { DiscordComponents, MessageActionRow, MessageButton } from "discord.tsx"
 
 import BaseCommand from "#base/BaseCommand";
 import { kClient } from "#utils/tokens";
+import { HelpCommandSub } from "./subcommands/HelpCommand.js";
 
 interface CommandCollectionInterface {
     name: string;
@@ -33,10 +45,29 @@ export default class extends BaseCommand {
         this.state = data;
     }
 
-    async execute(interaction: CommandInteraction) {
-        await interaction.deferReply();
+    async handleAutoComplete(interaction: AutocompleteInteraction, commands: Collection<string, ApplicationCommand>) {
+        if (interaction.responded) return;
+        const data = commands.map((m) => ({
+            name: m.name,
+            description: m.description || null
+        }));
+
+        const query = interaction.options.getString("command", false);
+        if (!query) return await interaction.respond(data.map((m) => ({ name: m.name, value: m.name })));
+
+        const results = data.filter((x) => x.name.includes(query) || !!x.description?.includes(query));
+        return await interaction.respond(results.map((m) => ({ name: m.name, value: m.name })));
+    }
+
+    async execute(interaction: CommandInteraction | AutocompleteInteraction) {
+        if (!interaction.isAutocomplete()) await interaction.deferReply();
         const commands = await this.fetchCommands(interaction);
         if (!commands) return;
+        if (interaction.isAutocomplete()) return this.handleAutoComplete(interaction, commands.cache);
+        const commandName = interaction.options.getString("command", false);
+        if (commandName) {
+            return HelpCommandSub(this.client, interaction, commandName, commands);
+        }
 
         const commandsCollection = commands.cache.map((m) => ({
             name: m.name,
@@ -158,12 +189,12 @@ export default class extends BaseCommand {
             .setTimestamp();
     }
 
-    async fetchCommands(interaction: CommandInteraction) {
+    async fetchCommands(interaction: CommandInteraction | AutocompleteInteraction) {
         try {
             const guild = interaction.guild || (await this.client.guilds.fetch(interaction.guildId));
             // return if guild is still not available
             if (!guild) {
-                await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
+                if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
                 return false;
             }
             // try fetching command
@@ -174,13 +205,13 @@ export default class extends BaseCommand {
                   })
                 : guild.commands.cache;
             if (!commands.size) {
-                await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
+                if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
                 return false;
             }
 
             return { cache: commands, guild };
         } catch {
-            await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
+            if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
             return false;
         }
     }

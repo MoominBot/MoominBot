@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { config } from "dotenv";
 
+import "./loadTSX.js";
+
 import "./events/ProcessEvents/handlers.js";
 
 import { container } from "tsyringe";

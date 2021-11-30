@@ -12,8 +12,7 @@ import {
 } from "discord.js";
 import { inject, injectable } from "tsyringe";
 import chunkBy from "lodash/chunk.js";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { DiscordComponents, MessageActionRow, MessageButton } from "discord.tsx";
+import { MessageActionRow, MessageButton } from "discord.tsx";
 
 import BaseCommand from "#base/BaseCommand";
 import { kClient, kCommands } from "#utils/tokens";

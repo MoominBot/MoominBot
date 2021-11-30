@@ -32,5 +32,5 @@
         "jsx": "react",
         "jsxFragmentFactory": "DiscordComponents.fragment"
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*", "global.d.ts"]
 }

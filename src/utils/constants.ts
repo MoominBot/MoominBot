@@ -1,1 +1,1 @@
-export const RONBAnnouncementChannel = "912563414063284236";
+export const RONBAnnouncementChannel = process.env.RONB_ANNOUNCEMENT_CHANNEL;

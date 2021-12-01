@@ -22,7 +22,7 @@ const RONBJob = async () => {
         if (!post || (prev !== null && prev.url === post.url)) return;
         await redis.set("ronbpost", JSON.stringify(post));
 
-        const channel = client.channels.cache.get(RONBAnnouncementChannel);
+        const channel = client.channels.cache.get(RONBAnnouncementChannel as string);
 
         if (channel?.isText()) {
             const embed = new MessageEmbed()

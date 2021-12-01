@@ -23,9 +23,14 @@ export default async function DeployCommands() {
             commands.push(data);
         }
 
-        await rest.put("DISCORD_GUILD_ID" in process.env ? Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID!, process.env.DISCORD_GUILD_ID!) : Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), {
-            body: commands
-        });
+        await rest.put(
+            "DISCORD_GUILD_ID" in process.env
+                ? Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID!, process.env.DISCORD_GUILD_ID!)
+                : Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!),
+            {
+                body: commands
+            }
+        );
         logger.info("[/] Successfully refreshed interaction commands!");
     } catch (err) {
         logger.error(err);

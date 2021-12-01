@@ -196,14 +196,15 @@ export default class extends BaseCommand {
             .setTimestamp();
     }
 
-    async getCommands(guild: Guild) {
-        if (!guild.commands.cache.size) {
-            const cache = await guild.commands.fetch();
-            return cache;
-        } else if (guild.commands.cache.size) {
-            return guild.commands.cache;
+    async getCommands() {
+        if (!this.client.application.commands.cache.size) {
+            const fetched = await this.client.application.commands.fetch({
+                force: true,
+                cache: true
+            });
+            return fetched;
         } else {
-            return this.client.application.commands.cache.size ? this.client.application.commands.cache : await this.client.application.commands.fetch();
+            return this.client.application.commands.cache;
         }
     }
 
@@ -216,7 +217,7 @@ export default class extends BaseCommand {
                 return false;
             }
             // try fetching command
-            const commands = await this.getCommands(guild);
+            const commands = await this.getCommands();
             if (!commands.size) {
                 if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong: `could not find commands`")] });
                 return false;

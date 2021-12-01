@@ -5,7 +5,6 @@ import {
     Client,
     Collection,
     CommandInteraction,
-    Guild,
     InteractionCollector,
     Message,
     MessageEmbed,

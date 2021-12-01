@@ -14,13 +14,14 @@ export default class extends BaseCommand {
 
     async execute(interaction: CommandInteraction) {
         const user = interaction.options.getUser("user");
+        const member = await interaction.guild?.members.fetch(user!.id);
         if (!interaction.memberPermissions?.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) {
             return await interaction.reply({ content: "You don't have appropriate permissions to run this command." });
         }
         const message = interaction.options.getString("message");
         // @ts-expect-error TS is weird
         const channel: TextChannel = await interaction.guild?.channels.fetch(interaction.channelId);
-        const webhook = await channel.createWebhook(user!.username, {
+        const webhook = await channel.createWebhook(member!.nickname ?? user!.username, {
             avatar: user?.displayAvatarURL(),
             reason: "Fake Message Command"
         });

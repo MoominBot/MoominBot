@@ -1,7 +1,8 @@
 -- CreateTable
 CREATE TABLE "Guild" (
     "id" TEXT NOT NULL,
-    "blocked" BOOLEAN NOT NULL DEFAULT false
+    "blocked" BOOLEAN NOT NULL DEFAULT false,
+    "ronb" TEXT
 );
 
 -- CreateIndex

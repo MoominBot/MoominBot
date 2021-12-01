@@ -9,7 +9,7 @@ import { container } from "tsyringe";
 import Discord from "discord.js";
 import readdirp from "readdirp";
 
-import { kClient, kCommands, kRedis } from "#utils/tokens";
+import { kClient, kCommands, kRedis, kPrisma } from "#utils/tokens";
 import { __dirname } from "#utils/dirname";
 import logger from "#utils/logger";
 
@@ -18,6 +18,7 @@ import BaseCommand from "#base/BaseCommand";
 
 import DeployCommand from "./deployCommands.js";
 import redis from "./database/redis.js";
+import prisma from "./database/prisma.js";
 
 config();
 
@@ -48,6 +49,7 @@ const commandsStore = new Discord.Collection<string, BaseCommand>();
 container.register(kClient, { useValue: client });
 container.register(kCommands, { useValue: commandsStore });
 container.register(kRedis, { useValue: redis });
+container.register(kPrisma, { useValue: prisma });
 
 const events = readdirp(`${__dirname(import.meta.url)}/events/DiscordEvents`, {
     fileFilter: ["*.js"],

@@ -9,7 +9,8 @@
     "#base/*": "./build/base/*.js",
     "#utils/*": "./build/utils/*.js",
     "#interactions/*": "./build/interactions/*.js",
-    "#jobs/*": "./build/jobs/*.js"
+    "#jobs/*": "./build/jobs/*.js",
+    "#database/*": "./build/database/*.js"
   },
   "scripts": {
     "build": "rimraf build && tsc",

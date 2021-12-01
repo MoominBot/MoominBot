@@ -21,7 +21,7 @@ export default class extends BaseCommand {
         // @ts-expect-error TS is weird
         const channel: TextChannel = await interaction.guild?.channels.fetch(interaction.channelId);
         const webhook = await channel.createWebhook(user!.username, {
-            avatar: user?.avatarURL(),
+            avatar: user?.displayAvatarURL(),
             reason: "Fake Message Command"
         });
 

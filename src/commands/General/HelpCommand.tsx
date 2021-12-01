@@ -5,6 +5,7 @@ import {
     Client,
     Collection,
     CommandInteraction,
+    Guild,
     InteractionCollector,
     Message,
     MessageEmbed,
@@ -195,6 +196,17 @@ export default class extends BaseCommand {
             .setTimestamp();
     }
 
+    async getCommands(guild: Guild) {
+        if (!guild.commands.cache.size) {
+            const cache = await guild.commands.fetch();
+            return cache;
+        } else if (guild.commands.cache.size) {
+            return guild.commands.cache;
+        } else {
+            return this.client.application.commands.cache.size ? this.client.application.commands.cache : await this.client.application.commands.fetch();
+        }
+    }
+
     async fetchCommands(interaction: CommandInteraction | AutocompleteInteraction) {
         try {
             const guild = interaction.guild || (await this.client.guilds.fetch(interaction.guildId));
@@ -204,12 +216,7 @@ export default class extends BaseCommand {
                 return false;
             }
             // try fetching command
-            const commands = !guild.commands.cache.size
-                ? await guild.commands.fetch({
-                      force: true,
-                      cache: true
-                  })
-                : guild.commands.cache;
+            const commands = await this.getCommands(guild);
             if (!commands.size) {
                 if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong: `could not find commands`")] });
                 return false;

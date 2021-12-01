@@ -1,1 +1,1 @@
-export const RONBAnnouncementChannel = "914789108524666880";
+export const RONBAnnouncementChannel = "912563414063284236";

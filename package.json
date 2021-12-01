@@ -69,7 +69,6 @@
     "prisma": "^3.5.0",
     "readdirp": "^3.6.0",
     "reflect-metadata": "^0.1.13",
-    "ronbpost": "^1.0.1",
     "tsyringe": "^4.6.0",
     "utf-8-validate": "^5.0.7",
     "winston": "^3.3.3",

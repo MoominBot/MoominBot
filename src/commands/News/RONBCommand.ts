@@ -5,7 +5,8 @@ import type { Redis } from "ioredis";
 import BaseCommand from "#base/BaseCommand";
 import { kRedis } from "#utils/tokens";
 import parseJSON from "#utils/safeJSON";
-import ronbpost, { RONBPost } from "ronbpost";
+import { getLatestPost } from "#utils/ronb";
+import { RONBPost } from "src/typings/ronb";
 
 @injectable()
 export default class extends BaseCommand {
@@ -18,20 +19,20 @@ export default class extends BaseCommand {
 
     async execute(interaction: CommandInteraction) {
         await interaction.deferReply();
-        const post = (await parseJSON<RONBPost>((await this.redis.get("ronbpost")) as string)) || (await ronbpost());
+        const post = (await parseJSON<RONBPost>((await this.redis.get("ronbpost")) as string)) || (await getLatestPost());
         if (!post) return await interaction.followUp({ content: "❌ | Failed to fetch **Routine of Nepal banda**" });
 
         const embed = new MessageEmbed()
-            .setTitle("View this post on Facebook")
+            .setTitle("View this post on Twitter")
             .setURL(post.url)
-            .setAuthor(post.author.name, post.author.icon || "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96", post.author.url)
+            .setAuthor("Routine of Nepal banda", "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96", "https://twitter.com/RONBupdates")
             .setColor("RED")
             .setDescription(post.content)
-            .setThumbnail(post.author.icon || "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96")
+            .setThumbnail("https://cdn.discordapp.com/emojis/914800551890407465.png?size=96")
             .setFooter("MoominBot", interaction.client.user?.displayAvatarURL())
             .setTimestamp(new Date(post.createdAt) || null);
 
-        if (post.image?.url) embed.setImage(post.image.url);
+        if (post.image) embed.setImage(post.image);
 
         return await interaction.followUp({ embeds: [embed] });
     }

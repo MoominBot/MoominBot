@@ -1,4 +1,3 @@
-import ronbpost, { RONBPost } from "ronbpost";
 import { kRedis, kClient } from "#utils/tokens";
 import { container } from "tsyringe";
 import cron from "node-cron";
@@ -7,17 +6,19 @@ import parseJSON from "#utils/safeJSON";
 import logger from "#utils/logger";
 import { RONBAnnouncementChannel } from "#utils/constants";
 import { Client, MessageEmbed } from "discord.js";
+import { getLatestPost } from "#utils/ronb";
+import { RONBPost } from "src/typings/ronb";
 
 const redis = container.resolve<Redis>(kRedis);
 const client = container.resolve<Client<true>>(kClient);
 
 logger.info("[CRON] Job ronbpost loaded!");
 
-cron.schedule("*/5 * * * *", async () => {
+const RONBJob = async () => {
     logger.info("[CRON] running ronb job");
     try {
         const prev = parseJSON<RONBPost>((await redis.get("ronbpost")) as string);
-        const post = await ronbpost();
+        const post = await getLatestPost();
         if (!post || (prev !== null && prev.url === post.url)) return;
         await redis.set("ronbpost", JSON.stringify(post));
 
@@ -25,16 +26,16 @@ cron.schedule("*/5 * * * *", async () => {
 
         if (channel?.isText()) {
             const embed = new MessageEmbed()
-                .setTitle("View this post on Facebook")
+                .setTitle("View this post on Twitter")
                 .setURL(post.url)
-                .setAuthor(post.author.name, post.author.icon || "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96", post.author.url)
+                .setAuthor("Routine of Nepal banda", "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96", "https://twitter.com/RONBupdates")
                 .setColor("RED")
                 .setDescription(post.content)
-                .setThumbnail(post.author.icon || "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96")
+                .setThumbnail("https://cdn.discordapp.com/emojis/914800551890407465.png?size=96")
                 .setFooter("MoominBot", client.user.displayAvatarURL())
                 .setTimestamp(post.createdAt || null);
 
-            if (post.image?.url) embed.setImage(post.image.url);
+            if (post.image) embed.setImage(post.image);
 
             await channel
                 .send({ embeds: [embed] })
@@ -44,4 +45,8 @@ cron.schedule("*/5 * * * *", async () => {
     } catch {
         logger.error("Failed to run RONBPost");
     }
-});
+};
+
+cron.schedule("*/5 * * * *", RONBJob);
+
+await RONBJob();

@@ -9,13 +9,14 @@
     "#base/*": "./build/base/*.js",
     "#utils/*": "./build/utils/*.js",
     "#interactions/*": "./build/interactions/*.js",
-    "#jobs/*": "./build/jobs/*.js"
+    "#jobs/*": "./build/jobs/*.js",
+    "#database/*": "./build/database/*.js"
   },
   "scripts": {
     "build": "rimraf build && tsc",
     "build:check": "tsc --noEmit",
     "dev": "cross-env NODE_ENV=development npm run runBuild",
-    "runBuild": "npm run build && node build/index.js",
+    "runBuild": "npm run build && prisma migrate deploy && node build/index.js",
     "start": "cross-env NODE_ENV=production npm run runBuild",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",

@@ -15,6 +15,14 @@ export default class extends BaseEvent {
 
     async execute(interaction: Interaction) {
         if (interaction.isCommand() || interaction.isContextMenu() || interaction.isAutocomplete()) {
+            if (!interaction.inGuild())
+                return !interaction.isAutocomplete()
+                    ? await interaction.reply({
+                          content: "❌ | MoominBot commands are guild only!",
+                          ephemeral: true
+                      })
+                    : null;
+
             const command = this.commands.get(interaction.commandName);
             if (!command) return;
 

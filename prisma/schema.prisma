@@ -10,4 +10,5 @@ datasource db {
 model Guild {
   id String @unique
   blocked Boolean @default(false)
+  ronb String?
 }

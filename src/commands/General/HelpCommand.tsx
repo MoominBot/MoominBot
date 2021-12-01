@@ -200,7 +200,7 @@ export default class extends BaseCommand {
             const guild = interaction.guild || (await this.client.guilds.fetch(interaction.guildId));
             // return if guild is still not available
             if (!guild) {
-                if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
+                if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong: `could not find guild`")] });
                 return false;
             }
             // try fetching command
@@ -211,13 +211,13 @@ export default class extends BaseCommand {
                   })
                 : guild.commands.cache;
             if (!commands.size) {
-                if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
+                if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong: `could not find commands`")] });
                 return false;
             }
 
             return { cache: commands, guild };
         } catch {
-            if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong.")] });
+            if (!interaction.isAutocomplete()) await interaction.followUp({ embeds: [this.prepareError("❌ | Something went wrong: `could not fetch commands`")] });
             return false;
         }
     }

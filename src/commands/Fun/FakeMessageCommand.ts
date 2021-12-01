@@ -1,4 +1,4 @@
-import { Client, CommandInteraction, TextChannel } from "discord.js";
+import { Client, CommandInteraction, Permissions, TextChannel } from "discord.js";
 import { inject, injectable } from "tsyringe";
 import BaseCommand from "#base/BaseCommand";
 import { kClient } from "#utils/tokens";
@@ -14,6 +14,9 @@ export default class extends BaseCommand {
 
     async execute(interaction: CommandInteraction) {
         const user = interaction.options.getUser("user");
+        if (!interaction.memberPermissions?.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) {
+            return await interaction.reply({ content: "You don't have appropriate permissions to run this command." });
+        }
         const message = interaction.options.getString("message");
         // @ts-expect-error TS is weird
         const channel: TextChannel = await interaction.guild?.channels.fetch(interaction.channelId);

@@ -1,84 +1,82 @@
 {
-    "name": "@moominbot/moomin",
-    "version": "0.1.0",
-    "description": "It's a Bird?? It's a Plane?? It's Moomin bot",
-    "main": "build/index.js",
-    "private": true,
-    "type": "module",
-    "imports": {
-        "#base/*": "./build/base/*.js",
-        "#utils/*": "./build/utils/*.js",
-        "#interactions/*": "./build/interactions/*.js",
-        "#jobs/*": "./build/jobs/*.js",
-        "#database/*": "./build/database/*.js"
-    },
-    "scripts": {
-        "build": "rimraf build && tsc",
-        "build:check": "tsc --noEmit",
-        "dev": "cross-env NODE_ENV=development npm run runBuild",
-        "runBuild": "npm run build && prisma migrate deploy && node build/index.js",
-        "start": "cross-env NODE_ENV=production npm run runBuild",
-        "lint": "eslint src --ext .ts",
-        "lint:fix": "eslint src --ext .ts --fix",
-        "format": "prettier --write src/**/*.{ts,tsx}",
-        "prepare": "husky install"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/MoominBot/MoominBot.git"
-    },
-    "author": "MoominBot Developers",
-    "license": "GPL-3.0",
-    "bugs": {
-        "url": "https://github.com/MoominBot/MoominBot/issues"
-    },
-    "homepage": "https://github.com/MoominBot/MoominBot#readme",
-    "devDependencies": {
-        "@types/common-tags": "^1.8.1",
-        "@types/ioredis": "^4.28.1",
-        "@types/lodash": "^4.14.177",
-        "@types/node": "^16.11.11",
-        "@types/node-cron": "^3.0.0",
-        "@typescript-eslint/eslint-plugin": "^5.5.0",
-        "@typescript-eslint/parser": "^5.5.0",
-        "eslint": "^8.3.0",
-        "husky": "^7.0.4",
-        "prettier": "^2.5.0",
-        "rimraf": "^3.0.2",
-        "ts-node": "^10.4.0",
-        "tslib": "^2.3.1",
-        "typescript": "^4.5.2"
-    },
-    "dependencies": {
-        "@discordjs/rest": "^0.1.0-canary.0",
-        "@moominbot/emojiutils": "^1.0.2",
-        "@prisma/client": "^3.6.0",
-        "@types/node-os-utils": "^1.2.0",
-        "bufferutil": "^4.0.5",
-        "cheerio": "^1.0.0-rc.10",
-        "common-tags": "^1.8.2",
-        "cross-env": "^7.0.3",
-        "dayjs": "^1.10.7",
-        "discord-api-types": "^0.25.2",
-        "discord.js": "^13.3.1",
-        "discord.tsx": "^2.0.0",
-        "dotenv": "^10.0.0",
-        "erlpack": "discord/erlpack",
-        "fuse.js": "^6.4.6",
-        "ioredis": "^4.28.2",
-        "lodash": "^4.17.21",
-        "node-cron": "^3.0.0",
-        "node-fetch": "^3.1.0",
-        "node-os-utils": "^1.3.5",
-        "prisma": "^3.6.0",
-        "readdirp": "^3.6.0",
-        "reflect-metadata": "^0.1.13",
-        "tsyringe": "^4.6.0",
-        "utf-8-validate": "^5.0.7",
-        "winston": "^3.3.3",
-        "zlib-sync": "^0.1.7"
-    },
-    "engines": {
-        "node": ">=16.1.0"
-    }
+  "name": "@moominbot/moomin",
+  "version": "0.1.0",
+  "description": "It's a Bird?? It's a Plane?? It's Moomin bot",
+  "main": "build/index.js",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#base/*": "./build/base/*.js",
+    "#utils/*": "./build/utils/*.js",
+    "#interactions/*": "./build/interactions/*.js",
+    "#jobs/*": "./build/jobs/*.js",
+    "#database/*": "./build/database/*.js"
+  },
+  "scripts": {
+    "build": "rimraf build && tsc",
+    "build:check": "tsc --noEmit",
+    "dev": "cross-env NODE_ENV=development yarn runBuild",
+    "runBuild": "yarn build && prisma migrate deploy && node build/index.js",
+    "start": "cross-env NODE_ENV=production yarn runBuild",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write src/**/*.{ts,tsx}",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MoominBot/MoominBot.git"
+  },
+  "author": "MoominBot Developers",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/MoominBot/MoominBot/issues"
+  },
+  "homepage": "https://github.com/MoominBot/MoominBot#readme",
+  "devDependencies": {
+    "@types/common-tags": "^1.8.1",
+    "@types/ioredis": "^4.28.1",
+    "@types/lodash": "^4.14.177",
+    "@types/node": "^16.11.11",
+    "@types/node-cron": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/parser": "^5.5.0",
+    "eslint": "^8.3.0",
+    "husky": "^7.0.4",
+    "prettier": "^2.5.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "@moominbot/emojiutils": "^1.0.2",
+    "@prisma/client": "^3.6.0",
+    "bufferutil": "^4.0.5",
+    "cheerio": "^1.0.0-rc.10",
+    "common-tags": "^1.8.2",
+    "cross-env": "^7.0.3",
+    "dayjs": "^1.10.7",
+    "discord-api-types": "^0.25.2",
+    "discord.js": "^13.3.1",
+    "discord.tsx": "^2.0.0",
+    "dotenv": "^10.0.0",
+    "erlpack": "discord/erlpack",
+    "fuse.js": "^6.4.6",
+    "ioredis": "^4.28.2",
+    "lodash": "^4.17.21",
+    "node-cron": "^3.0.0",
+    "node-fetch": "^3.1.0",
+    "prisma": "^3.6.0",
+    "readdirp": "^3.6.0",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.6.0",
+    "utf-8-validate": "^5.0.7",
+    "winston": "^3.3.3",
+    "zlib-sync": "^0.1.7"
+  },
+  "engines": {
+    "node": ">=16.1.0"
+  }
 }

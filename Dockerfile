@@ -1,7 +1,7 @@
 FROM node:16-bullseye-slim
 
 
-# Creating workdir and copying the config and lock files for poetry
+# Creating workdir and copying the lock files 
 WORKDIR /code
 COPY yarn.lock /code/
 

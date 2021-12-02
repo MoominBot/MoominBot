@@ -19,8 +19,8 @@ export default class extends BaseCommand {
         if (!interaction.memberPermissions?.has(Permissions.FLAGS.KICK_MEMBERS)) {
             return await interaction.reply({ content: "You don't have the required permissions to run this command" });
         }
-        const reason = interaction.options.getString("reason");
-        await member?.kick(reason as string);
+        const reason = interaction.options.getString("reason", true);
+        await member?.kick(reason);
         await interaction.reply({ content: `${user?.tag} has been kicked` });
     }
 }

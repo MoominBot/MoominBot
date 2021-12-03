@@ -35,7 +35,7 @@
   "homepage": "https://github.com/MoominBot/MoominBot#readme",
   "devDependencies": {
     "@types/common-tags": "^1.8.1",
-    "@types/ioredis": "^4.28.1",
+    "@types/ioredis": "^4.28.2",
     "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.11",
     "@types/node-cron": "^3.0.0",

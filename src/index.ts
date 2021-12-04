@@ -24,17 +24,13 @@ config();
 
 const client = new Discord.Client<true>({
     intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES],
-    ws: {
-        properties: {
-            $browser: "Discord Android"
-        }
-    },
     allowedMentions: {
         parse: []
     },
     shards: "auto",
     userAgentSuffix: ["MoominBot"],
     presence: {
+        status: "idle",
         activities: [
             {
                 name: "in Moomin Valley",

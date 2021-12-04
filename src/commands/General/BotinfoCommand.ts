@@ -4,6 +4,9 @@ import { inject, injectable } from "tsyringe";
 import BaseCommand from "#base/BaseCommand";
 import { kClient } from "#utils/tokens";
 
+import os from "node:os";
+import { Emojis } from "#utils/constants";
+
 @injectable()
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>) {
@@ -45,18 +48,28 @@ export default class extends BaseCommand {
                     inline: false
                 },
                 {
+                    name: "CPU",
+                    inline: false,
+                    value: `${os.cpus()[0].model} (x${os.cpus().length})`
+                },
+                {
+                    name: "Memory Usage",
+                    inline: true,
+                    value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem() / 1024 / 1024 / 1024)} GB`
+                },
+                {
                     name: "Language",
                     value: "TypeScript",
                     inline: true
                 },
                 {
                     name: "Library",
-                    value: `discord.js v${version}`,
+                    value: `Discord.js v${version}`,
                     inline: true
                 },
                 {
                     name: "Version",
-                    value: "0.1.0a",
+                    value: `${Emojis.REPLY_BRANCH} Bot Version: 0.1.0a\n${Emojis.REPLY} Node Version: ${process.version}`,
                     inline: true
                 },
                 {

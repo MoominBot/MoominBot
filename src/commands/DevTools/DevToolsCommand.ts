@@ -72,9 +72,7 @@ export default class extends BaseCommand {
         try {
             const _moomin_X_output__Eval = await eval(stripIndents`
             (async (__dirname, __filename) => {
-                return (
-                    ${code}
-                );
+                ${code}
             })("${__dirname(import.meta.url)}", "${__filename(import.meta.url)}")`);
             return { error: false, output: this.createOutput(_moomin_X_output__Eval) };
         } catch (e) {

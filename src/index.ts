@@ -65,6 +65,7 @@ for await (const eventFile of events) {
 
 for await (const commandFile of commands) {
     const command = container.resolve<BaseCommand>(await import(`file://${commandFile.fullPath}`).then((x) => x.default));
+    command.setPath(commandFile.fullPath);
     commandsStore.set(command.config.name, command);
     logger.info(`Loaded command ${command.config.name}!`);
 }

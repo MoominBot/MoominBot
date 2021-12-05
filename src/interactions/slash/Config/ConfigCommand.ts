@@ -10,22 +10,15 @@ const commandConfig = {
     description: "Server configuration",
     options: [
         {
-            name: "name",
-            description: "Config name",
-            type: ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
+            name: ConfigCommands.RONB,
+            description: "Routine of Nepal banda config",
+            type: ApplicationCommandOptionTypes.SUB_COMMAND,
             options: [
                 {
-                    name: ConfigCommands.RONB,
-                    description: "Routine of Nepal banda config",
-                    type: ApplicationCommandOptionTypes.SUB_COMMAND,
-                    options: [
-                        {
-                            name: "channel",
-                            description: "The channel where RONB feed should be posted",
-                            type: ApplicationCommandOptionTypes.CHANNEL,
-                            required: false
-                        }
-                    ]
+                    name: "channel",
+                    description: "The channel where RONB feed should be posted",
+                    type: ApplicationCommandOptionTypes.CHANNEL,
+                    required: false
                 }
             ]
         }

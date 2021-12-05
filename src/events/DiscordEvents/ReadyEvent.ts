@@ -19,7 +19,11 @@ export default class extends BaseEvent {
                 {
                     color: "GREEN",
                     title: "Bot is online!",
-                    description: `Connected to discord at <t:${Math.floor(client.readyTimestamp / 1000)}:F>`
+                    description: `Connected to discord at <t:${Math.floor(client.readyTimestamp / 1000)}:F>`,
+                    footer: {
+                        text: client.user.tag,
+                        iconURL: client.user.displayAvatarURL()
+                    }
                 }
             ]
         });

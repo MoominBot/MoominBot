@@ -10,6 +10,7 @@ import MoominUtils from "#utils/MoominUtils";
 import { TOKEN_PLACEHOLDER } from "#utils/constants";
 import { stripIndents } from "common-tags";
 import { __dirname, __filename } from "#utils/dirname";
+import { exec } from "node:child_process";
 
 @injectable()
 export default class extends BaseCommand {
@@ -33,7 +34,7 @@ export default class extends BaseCommand {
                     const rawCode = interaction.options.getString("code", true);
                     const res = await this.evaluate(rawCode, { client: this.client, interaction });
                     await interaction.followUp({
-                        content: `⏱️ | **Evaluation time:** \`${Date.now() - interaction.createdTimestamp}ms\``,
+                        content: `⏱️ | **Evaluation time:** \`${((Date.now() - interaction.createdTimestamp) / 1000).toFixed(2)} seconds\``,
                         embeds: [
                             {
                                 description: `\`\`\`js\n${res.output}\n\`\`\``,
@@ -48,9 +49,61 @@ export default class extends BaseCommand {
                     });
                 }
                 break;
+            case DevToolsCommand.EXEC:
+                {
+                    const verified = await this.verifyPermissions(interaction.user.id);
+                    if (!verified) return await interaction.reply({ ephemeral: true, content: "❌ | You are not authorized to use this command!" });
+                    await interaction.deferReply({ ephemeral: hiddenResponse });
+                    const rawCommand = interaction.options.getString("command", true);
+                    const response = await this.execUnsafe(rawCommand);
+                    await interaction.followUp({
+                        content: `⏱️ | **Evaluation time:** \`${((Date.now() - interaction.createdTimestamp) / 1000).toFixed(2)} seconds\``,
+                        embeds: [
+                            {
+                                description: `\`\`\`shell\n${response.output}\n\`\`\``,
+                                color: response.error ? "RED" : "GREEN",
+                                title: `Evaluation Result - ${response.error ? "Error" : "Success"}`,
+                                footer: {
+                                    text: `Requested by ${interaction.user.tag}`,
+                                    iconURL: interaction.user.displayAvatarURL()
+                                }
+                            }
+                        ]
+                    });
+                }
+                break;
             default:
                 return await interaction.reply({ ephemeral: true, content: "❌ | Invalid or unimplemented command!" });
         }
+    }
+
+    execUnsafe(command: string) {
+        return new Promise<{ error: boolean; output: string }>((resolve) => {
+            exec(
+                command,
+                {
+                    encoding: "utf8",
+                    windowsHide: true,
+                    timeout: 60_000
+                },
+                (error, stdout, stderr) => {
+                    if (error)
+                        return resolve({
+                            error: true,
+                            output: this.createOutput(error.message || `${error}`)
+                        });
+                    if (stderr)
+                        return resolve({
+                            error: true,
+                            output: this.createOutput(stderr || "Evaluation Error")
+                        });
+                    return resolve({
+                        error: false,
+                        output: this.createOutput(stdout || "<{STDOUT}>")
+                    });
+                }
+            );
+        });
     }
 
     /* eslint-disable @typescript-eslint/no-this-alias */

@@ -17,10 +17,10 @@ export default class extends BaseCommand {
         const timeout = Date.now() - interaction.createdTimestamp;
         const embed = new MessageEmbed()
             .setTimestamp()
-            .setTitle("Bot Latency")
+            .setTitle("⏱️ | Pong!")
             .setColor("BLURPLE")
             .setThumbnail(this.client.user.displayAvatarURL())
-            .setDescription(`⏱️ | Pong!\nHTTP: \`${timeout}ms\`\nWebSocket: \`${Math.floor(this.client.ws.ping)}ms\``);
+            .setDescription(`HTTP: \`${timeout}ms\`\nWebSocket: \`${Math.floor(this.client.ws.ping)}ms\``);
 
         await interaction.reply({ embeds: [embed] });
     }

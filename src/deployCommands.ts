@@ -31,6 +31,7 @@ export default async function DeployCommands() {
                 body: commands
             }
         );
+
         logger.info("[/] Successfully refreshed interaction commands!");
     } catch (err) {
         logger.error(err);

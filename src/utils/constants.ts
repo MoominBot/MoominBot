@@ -7,3 +7,5 @@ export enum Emojis {
     RIGHT_ARROW = "<:rightarrow:915183144464953364>",
     ERROR_DEFAULT = "❌"
 }
+
+export const TOKEN_PLACEHOLDER = "mfa.VkO_2G4Qv3T--NO--lWetW_tjND--TOKEN--QFTm6YGtzq9PH--4U--tG0";

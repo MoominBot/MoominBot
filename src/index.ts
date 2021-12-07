@@ -23,7 +23,12 @@ import prisma from "./database/prisma.js";
 config();
 
 const client = new Discord.Client<true>({
-    intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES],
+    intents: [
+        Discord.Intents.FLAGS.GUILDS,
+        Discord.Intents.FLAGS.GUILD_MESSAGES,
+        Discord.Intents.FLAGS.GUILD_MEMBERS,
+        Discord.Intents.FLAGS.GUILD_PRESENCES
+    ],
     allowedMentions: {
         parse: []
     },

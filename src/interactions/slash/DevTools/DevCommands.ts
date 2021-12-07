@@ -4,7 +4,6 @@ import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
 export enum DevToolsCommand {
     // commands
     EVAL = "eval",
-    RELOAD = "reload",
     // groups
     RUNTIME = "runtime"
 }
@@ -36,19 +35,6 @@ const commandConfig = {
                             required: false
                         }
                     ]
-                }
-            ]
-        },
-        {
-            name: DevToolsCommand.RELOAD,
-            description: "Reload a cached command",
-            type: ApplicationCommandOptionTypes.SUB_COMMAND,
-            options: [
-                {
-                    name: "command",
-                    description: "The command to reload",
-                    type: ApplicationCommandOptionTypes.STRING,
-                    required: true
                 }
             ]
         }

@@ -95,13 +95,13 @@ export default class extends BaseCommand {
                     value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem() / 1024 / 1024 / 1024)} GB`
                 },
                 {
-                    name: "Language",
-                    value: "TypeScript",
+                    name: "\u200b",
+                    value: "\u200b",
                     inline: true
                 },
                 {
-                    name: "Library",
-                    value: `Discord.js v${version}`,
+                    name: "Language",
+                    value: "TypeScript",
                     inline: true
                 },
                 {
@@ -109,6 +109,7 @@ export default class extends BaseCommand {
                     value: stripIndents`${Emojis.REPLY_BRANCH} Bot Version: 0.1.0a
                     ${Emojis.REPLY_BRANCH} Node Version: ${process.version}
                     ${Emojis.REPLY_BRANCH} V8: ${process.versions.v8}
+                    ${Emojis.REPLY_BRANCH} Discord.js: ${version}
                     ${Emojis.REPLY} libuv: ${process.versions.uv}`,
                     inline: true
                 },

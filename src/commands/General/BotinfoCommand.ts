@@ -27,20 +27,28 @@ export default class extends BaseCommand {
             const cached = await this.redis.get("moomin_bot::commits");
             if (cached) return resolve(cached.trim());
 
-            cpExec("git log --oneline -3", {
-                timeout: 30_000,
-                windowsHide: true
-            }, async (err, stdout) => {
-                if (err || !stdout) return resolve("N/A");
-                const res = stdout.split("\n").map((s) => {
-                    const [commit, ...msgs] = s.split(" ");
-                    return !commit ? "" : `[\`${commit}\`](https://github.com/MoominBot/MoominBot/commit/${commit}) ${msgs.join(" ")}`;
-                }).join("\n").trim();
+            cpExec(
+                "git log --oneline -3",
+                {
+                    timeout: 30_000,
+                    windowsHide: true
+                },
+                async (err, stdout) => {
+                    if (err || !stdout) return resolve("N/A");
+                    const res = stdout
+                        .split("\n")
+                        .map((s) => {
+                            const [commit, ...msgs] = s.split(" ");
+                            return !commit ? "" : `[\`${commit}\`](https://github.com/MoominBot/MoominBot/commit/${commit}) ${msgs.join(" ")}`;
+                        })
+                        .join("\n")
+                        .trim();
 
-                await this.redis.setex("moomin_bot::commits", 300, res);
+                    await this.redis.setex("moomin_bot::commits", 300, res);
 
-                resolve(res);
-            });
+                    resolve(res);
+                }
+            );
         });
     }
 
@@ -53,12 +61,7 @@ export default class extends BaseCommand {
         const actionRow = new MessageActionRow().addComponents(
             [new MessageButton().setLabel("Learn more").setURL("https://discord.gg/KryMr3Jy68").setStyle("LINK")],
             [new MessageButton().setLabel("Source code").setURL("https://github.com/MoominBot/MoominBot").setStyle("LINK")],
-            [
-                new MessageButton()
-                    .setLabel("Invite bot")
-                    .setURL(botInviteURL)
-                    .setStyle("LINK")
-            ]
+            [new MessageButton().setLabel("Invite bot").setURL(botInviteURL).setStyle("LINK")]
         );
 
         const embed = new MessageEmbed()
@@ -78,11 +81,7 @@ export default class extends BaseCommand {
                 },
                 {
                     name: "Uptime",
-                    value: formatMs(ms(this.client.uptime), [
-                        "months", "weeks",
-                        "days", "hours",
-                        "minutes", "seconds"
-                    ]) || "N/A",
+                    value: formatMs(ms(this.client.uptime), ["months", "weeks", "days", "hours", "minutes", "seconds"]) || "N/A",
                     inline: false
                 },
                 {

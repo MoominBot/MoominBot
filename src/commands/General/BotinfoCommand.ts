@@ -67,21 +67,21 @@ export default class extends BaseCommand {
         const embed = new MessageEmbed()
             .setThumbnail(this.client.user.displayAvatarURL())
             .setAuthor(`Information about ${this.client.user.username} Bot`, this.client.user.displayAvatarURL())
-            .setDescription(`Last updates:\n${commits || "N/A"}`)
+            .setDescription(`**__Last updates:__**\n${commits || "N/A"}`)
             .addFields(
                 {
-                    name: "ID",
-                    value: this.client.user.id,
+                    name: "Basic Information",
+                    value: `${this.client.user.tag} (\`${this.client.user.id}\`)`,
                     inline: false
                 },
                 {
-                    name: "Created at",
+                    name: "Created",
                     value: `<t:${Math.floor(this.client.user.createdTimestamp / 1000)}:F> • <t:${Math.floor(this.client.user.createdTimestamp / 1000)}:R>`,
                     inline: false
                 },
                 {
                     name: "Uptime",
-                    value: formatMs(ms(this.client.uptime), ["months", "weeks", "days", "hours", "minutes", "seconds"]) || "N/A",
+                    value: formatMs(ms(this.client.uptime), ["months", "weeks", "days", "hours", "minutes", "seconds"]) || "1 second",
                     inline: false
                 },
                 {
@@ -119,23 +119,11 @@ export default class extends BaseCommand {
                     inline: true
                 },
                 {
-                    name: "Bot Tag",
-                    value: this.client.user.tag,
-                    inline: true
-                },
-                {
-                    name: "Server Count",
-                    value: this.client.guilds.cache.size.toString(),
-                    inline: true
-                },
-                {
-                    name: "Users",
-                    value: this.client.users.cache.size.toString(),
-                    inline: true
-                },
-                {
-                    name: "Channels",
-                    value: this.client.channels.cache.size.toString(),
+                    name: "Statistics",
+                    value: stripIndents`${Emojis.REPLY_BRANCH} Servers: ${this.client.guilds.cache.size.toLocaleString()}
+                    ${Emojis.REPLY_BRANCH} Users: ${this.client.users.cache.size.toLocaleString()}
+                    ${Emojis.REPLY_BRANCH} Channels: ${this.client.channels.cache.size.toLocaleString()}
+                    ${Emojis.REPLY} Shards: ${typeof this.client.shard?.count !== "number" ? 1 : this.client.shard?.count}`,
                     inline: true
                 }
             )

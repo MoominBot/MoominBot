@@ -11,4 +11,21 @@ model Guild {
   id String @unique
   blocked Boolean @default(false)
   ronb String?
+  modlog String?
+}
+
+model ModLogCase {
+  id Int @id() @default(autoincrement())
+  guild String
+  case_id Int  @default(autoincrement())
+  moderator String
+  target String
+  reason String @default("N/A")
+  type Int
+  timestamp String // this is set from ModLogCase
+
+  // the log message id
+  message String?
+  // the channel id where this log was sent
+  channel String?
 }

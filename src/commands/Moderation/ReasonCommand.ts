@@ -69,11 +69,15 @@ export default class extends BaseCommand {
         const logEmbed = new MessageEmbed()
             .setColor(entryCase.color)
             .setTimestamp(entryCase.timestamp)
-            .setTitle(`${entryCase.type} | case #${entry.case_id}`)
-            .addField("User", `${this.client.users.cache.get(entry.target)?.tag} (\`${entry.target}\`)`)
-            .addField("Moderator", `${this.client.users.cache.get(entry.moderator)?.tag || interaction.user.tag} (\`${entry.moderator || interaction.user.id}\`)`)
-            .addField("Reason", entry.reason === "N/A" ? `Moderator do \`/reason ${entry.case_id} <reason>\`` : entry.reason)
-            .setFooter(`Entry id: ${entry.id}`);
+            .setTitle(`${entryCase.type} | case #${updatedEntry.case_id}`)
+            .addField("User", `${this.client.users.cache.get(updatedEntry.target)?.tag || "Unknown"} (\`${updatedEntry.target}\`)`, true)
+            .addField(
+                "Moderator",
+                `${this.client.users.cache.get(updatedEntry.moderator)?.tag || interaction.user.tag} (\`${updatedEntry.moderator || interaction.user.id}\`)`,
+                true
+            )
+            .addField("Reason", updatedEntry.reason === "N/A" ? `Moderator do \`/reason ${updatedEntry.case_id} <reason>\`` : updatedEntry.reason, false)
+            .setFooter(`Entry id: ${updatedEntry.id}`);
 
         await interaction.followUp({ embeds: [logEmbed], content: "♾️ Case Update Preview" });
         const logChannel = this.client.guilds.cache.get(server.id)?.channels.cache.get(updatedEntry.channel!) as GuildTextBasedChannel | undefined;
@@ -82,6 +86,17 @@ export default class extends BaseCommand {
             return await (this.client.channels.cache.get(server.modlog) as GuildTextBasedChannel)
                 ?.send({
                     embeds: [logEmbed]
+                })
+                .then(async (m) => {
+                    await this.prisma.modLogCase.update({
+                        data: {
+                            channel: m.channelId,
+                            message: m.id
+                        },
+                        where: {
+                            id: updatedEntry.id
+                        }
+                    });
                 })
                 .catch(() => null);
 

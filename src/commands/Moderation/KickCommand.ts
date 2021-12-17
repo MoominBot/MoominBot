@@ -47,7 +47,7 @@ export default class extends BaseCommand {
         if (!member.kickable) return await interaction.followUp({ content: "Can't kick that member." });
 
         const reason = interaction.options.getString("reason");
-        // await member.kick(reason || `Kicked by ${interaction.user.tag}`).catch(() => null);
+        await member.kick(reason || `Kicked by ${interaction.user.tag}`).catch(() => null);
 
         const kickCase = new ModLogCase()
             .setGuild(interaction.guildId)
@@ -67,9 +67,9 @@ export default class extends BaseCommand {
             .setColor(kickCase.color)
             .setTimestamp(kickCase.timestamp)
             .setTitle(`${kickCase.type} | case #${entry.case_id}`)
-            .addField("User", `${this.client.users.cache.get(entry.target)?.tag || member.user.tag} (\`${entry.target || member.id}\`)`)
-            .addField("Moderator", `${this.client.users.cache.get(entry.moderator)?.tag || interaction.user.tag} (\`${entry.moderator || interaction.user.id}\`)`)
-            .addField("Reason", entry.reason === "N/A" ? `Moderator do \`/reason ${entry.case_id} <reason>\`` : entry.reason)
+            .addField("User", `${this.client.users.cache.get(entry.target)?.tag || member.user.tag} (\`${entry.target || member.id}\`)`, true)
+            .addField("Moderator", `${this.client.users.cache.get(entry.moderator)?.tag || interaction.user.tag} (\`${entry.moderator || interaction.user.id}\`)`, true)
+            .addField("Reason", entry.reason === "N/A" ? `Moderator do \`/reason ${entry.case_id} <reason>\`` : entry.reason, false)
             .setFooter(`Entry id: ${entry.id}`);
 
         await interaction.followUp({ content: `${user?.tag} has been kicked` });

@@ -9,6 +9,7 @@ import { Client, GuildTextBasedChannel, MessageEmbed } from "discord.js";
 import { getLatestPost } from "#utils/ronb";
 import { RONBPost } from "src/typings/ronb";
 import type { PrismaClient } from "@prisma/client";
+import i18next from "i18next";
 
 const redis = container.resolve<Redis>(kRedis);
 const client = container.resolve<Client<true>>(kClient);
@@ -27,7 +28,7 @@ const RONBJob = async () => {
         const channel = client.channels.cache.get(RONBAnnouncementChannel as string);
 
         const embed = new MessageEmbed()
-            .setTitle("View this post on Twitter")
+            .setTitle(i18next.t("commands:ronb.viewOnTwitter"))
             .setURL(post.url)
             .setAuthor("Routine of Nepal banda", "https://cdn.discordapp.com/emojis/914800551890407465.png?size=96", "https://twitter.com/RONBupdates")
             .setColor("RED")

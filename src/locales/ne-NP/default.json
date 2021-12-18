@@ -1,0 +1,6 @@
+{
+    "commands": {
+        "failedToExecute": "{command} कमाण्ड चलाउन सकिएन|"
+    },
+    "hello": "नमस्ते"
+}

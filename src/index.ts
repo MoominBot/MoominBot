@@ -12,6 +12,7 @@ import readdirp from "readdirp";
 import { kClient, kCommands, kRedis, kPrisma } from "#utils/tokens";
 import { __dirname } from "#utils/dirname";
 import logger from "#utils/logger";
+import "#utils/i18n";
 
 import BaseEvent from "#base/BaseEvent";
 import BaseCommand from "#base/BaseCommand";

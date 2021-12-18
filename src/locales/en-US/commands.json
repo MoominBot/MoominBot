@@ -1,0 +1,26 @@
+{
+    "cuddle": {
+        "self": "Dude that's weird!",
+        "cuddling": "{{user1}} is cuddling with {{user2}}"
+    },
+    "hug": {
+        "self": "You can't hug yourself, you loner!",
+        "hugging": "{{user1}} hugs {{user2}}, Aww so sweet!"
+    },
+    "kiss": {
+        "self": "I am no one to judge, but kissing yourself is gay bro...",
+        "kissing": "{{user1}} kisses {{user2}}"
+    },
+    "laugh": {
+        "random": "{{user1}} laughs just randomly! Must have remembered a funny joke.",
+        "laughing": "{{user1}} laughs at {{user2}}"
+    },
+    "slap": {
+        "self": "Trust me bro, You don't wanna slap yourself!",
+        "slapping": "{{user1}} slapped {{user2}}"
+    },
+    "ronb": {
+        "viewOnTwitter": "View this post on Twitter",
+        "failedToFetch": "❌ | Failed to fetch **Routine of Nepal banda**"
+    }
+}

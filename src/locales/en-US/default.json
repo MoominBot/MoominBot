@@ -1,0 +1,6 @@
+{
+    "commands": {
+        "failedToExecute": "Failed to execute command: {command}"
+    },
+    "hello": "Hello"
+}

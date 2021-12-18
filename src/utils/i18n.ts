@@ -14,7 +14,7 @@ const preloadData = (await readdir(join(__dirname(import.meta.url), "../locales"
 i18next.use(Backend).init({
     initImmediate: false,
     fallbackLng: "en-US",
-    lng: "ne-NP",
+    lng: "en-US",
     preload: preloadData,
     ns: ["default", "commands"],
     defaultNS: "default",

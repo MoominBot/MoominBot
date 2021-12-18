@@ -1,7 +1,7 @@
 import BaseCommand from "#base/BaseCommand";
 import { inject, injectable } from "tsyringe";
 import { kClient, kPrisma } from "#utils/tokens";
-import { Client, CommandInteraction, Permissions, MessageEmbed } from "discord.js";
+import { Client, CommandInteraction, Permissions } from "discord.js";
 import { ModLogCase } from "#utils/ModLogCase";
 import type { PrismaClient } from "@prisma/client";
 
@@ -27,7 +27,7 @@ export default class extends BaseCommand {
             }
         });
 
-        if (!server || !server.modlog || !interaction.guild?.channels.cache.has(server.modlog)) {
+        if (!server || !server.modlog) {
             return await interaction.followUp({ content: "No mod log channel found for this server" });
         }
 
@@ -42,23 +42,7 @@ export default class extends BaseCommand {
 
         if (!entry) return await interaction.followUp({ content: "❌ | No infraction found with that case id" });
 
-        const entryCase = new ModLogCase({
-            guild: entry.guild,
-            reason: entry.reason,
-            moderator: entry.moderator,
-            target: entry.target,
-            timestamp: new Date(entry.timestamp).getTime(),
-            type: entry.type
-        });
-
-        const logEmbed = new MessageEmbed()
-            .setColor(entryCase.color)
-            .setTimestamp(entryCase.timestamp)
-            .setTitle(`${entryCase.type} | case #${entry.case_id}`)
-            .addField("User", `${this.client.users.cache.get(entry.target)?.tag || "Unknown"} (\`${entry.target}\`)`, true)
-            .addField("Moderator", `${this.client.users.cache.get(entry.moderator)?.tag || interaction.user.tag} (\`${entry.moderator || interaction.user.id}\`)`, true)
-            .addField("Reason", entry.reason === "N/A" ? `Moderator do \`/reason ${entry.case_id} <reason>\`` : entry.reason, false)
-            .setFooter(`Entry id: ${entry.id}`);
+        const logEmbed = await ModLogCase.createEmbed(entry);
 
         return await interaction.followUp({
             embeds: [logEmbed],

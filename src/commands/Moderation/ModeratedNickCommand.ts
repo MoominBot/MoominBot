@@ -1,7 +1,7 @@
 import BaseCommand from "#base/BaseCommand";
 import { inject, injectable } from "tsyringe";
 import { kClient, kPrisma } from "#utils/tokens";
-import { Client, CommandInteraction, GuildTextBasedChannel, MessageEmbed, Permissions } from "discord.js";
+import { Client, CommandInteraction, GuildTextBasedChannel, Permissions } from "discord.js";
 import { ModLogCase } from "#utils/ModLogCase";
 import { ModLogCaseType } from "#utils/constants";
 import type { PrismaClient } from "@prisma/client";
@@ -62,14 +62,7 @@ export default class extends BaseCommand {
             }
         });
 
-        const logEmbed = new MessageEmbed()
-            .setColor(nickCase.color)
-            .setTimestamp(nickCase.timestamp)
-            .setTitle(`${nickCase.type} | case #${entry.case_id}`)
-            .addField("User", `${this.client.users.cache.get(entry.target)?.tag || member.user.tag} (\`${entry.target || member.id}\`)`, true)
-            .addField("Moderator", `${this.client.users.cache.get(entry.moderator)?.tag || interaction.user.tag} (\`${entry.moderator || interaction.user.id}\`)`, true)
-            .addField("Reason", entry.reason === "N/A" ? `Moderator do \`/reason ${entry.case_id} <reason>\`` : entry.reason, false)
-            .setFooter(`Entry id: ${entry.id}`);
+        const logEmbed = await nickCase.toEmbed(entry);
 
         await interaction.followUp({ content: `Sucessfully Moderated ${user!.tag}'s nickname.`, ephemeral: true });
 

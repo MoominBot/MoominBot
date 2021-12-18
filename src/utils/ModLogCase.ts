@@ -1,5 +1,10 @@
-import { Snowflake, ColorResolvable } from "discord.js";
+import { Client, Snowflake, ColorResolvable, MessageEmbed } from "discord.js";
 import { ModLogCaseType } from "./constants.js";
+import type { ModLogCase as ModLogCaseData } from "@prisma/client";
+import { kClient } from "./tokens.js";
+import { container } from "tsyringe";
+
+const client = container.resolve<Client<true>>(kClient);
 
 export interface ModLogData {
     reason: string;
@@ -9,6 +14,8 @@ export interface ModLogData {
     guild: Snowflake;
     target: Snowflake;
 }
+
+export type ModLogDataJSON = Omit<ModLogData, "timestamp"> & { timestamp: string };
 
 export class ModLogCase {
     // @ts-expect-error default entry
@@ -111,10 +118,45 @@ export class ModLogCase {
         return {
             ...this.data,
             timestamp: new Date(this.data.timestamp).toJSON()
-        };
+        } as ModLogDataJSON;
     }
 
-    build() {
-        return this.toJSON();
+    build(formatted: false): ModLogDataJSON;
+    build(formatted?: boolean): ModLogDataJSON;
+    build(formatted: true): ModLogCase;
+    build(formatted = false): ModLogCase | ModLogDataJSON {
+        // needed for validation
+        const raw = this.toJSON();
+        return formatted ? this : raw;
+    }
+
+    async toEmbed(entry: ModLogCaseData) {
+        const getUser = async (id: string) => await client.users.fetch(id, { force: false }).catch(() => null);
+
+        const embed = new MessageEmbed()
+            .setColor(this.color)
+            .setTimestamp(this.timestamp)
+            .setTitle(`${this.type} | Case #${entry.case_id}`)
+            .addField("User", `${(await getUser(entry.target))?.tag || "Unknown#0000"} (<@${entry.target}>)`, true)
+            .addField("Moderator", `${(await getUser(entry.moderator))?.tag || "Unknown#0000"} (<@${entry.moderator}>)`, true)
+            .addField("Reason", !entry.reason || entry.reason === "N/A" ? `Moderator do \`/reason ${entry.case_id} <reason>\`` : entry.reason, false)
+            .setFooter(`Entry id: ${entry.id}`);
+
+        return embed;
+    }
+
+    static createEmbed(entry: ModLogCaseData) {
+        const embed = new ModLogCase({
+            guild: entry.guild,
+            reason: entry.reason,
+            moderator: entry.moderator,
+            target: entry.target,
+            timestamp: new Date(entry.timestamp).getTime(),
+            type: entry.type
+        })
+            .build(true)
+            .toEmbed(entry);
+
+        return embed;
     }
 }

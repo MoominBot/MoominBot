@@ -1,7 +1,7 @@
 import BaseCommand from "#base/BaseCommand";
 import { inject, injectable } from "tsyringe";
 import { kClient, kPrisma } from "#utils/tokens";
-import { Client, CommandInteraction, Permissions, MessageEmbed, GuildTextBasedChannel } from "discord.js";
+import { Client, CommandInteraction, Permissions, GuildTextBasedChannel } from "discord.js";
 import { ModLogCase } from "#utils/ModLogCase";
 import type { PrismaClient } from "@prisma/client";
 
@@ -47,6 +47,7 @@ export default class extends BaseCommand {
         });
 
         if (!entry) return await interaction.followUp({ content: "❌ | No entry found with that case id" });
+        if (entry.reason === reason) return await interaction.followUp({ content: "❌ | Case was not updated due to the reason being same." });
 
         const updatedEntry = await this.prisma.modLogCase.update({
             where: {
@@ -66,20 +67,12 @@ export default class extends BaseCommand {
             type: updatedEntry.type
         });
 
-        const logEmbed = new MessageEmbed()
-            .setColor(entryCase.color)
-            .setTimestamp(entryCase.timestamp)
-            .setTitle(`${entryCase.type} | case #${updatedEntry.case_id}`)
-            .addField("User", `${this.client.users.cache.get(updatedEntry.target)?.tag || "Unknown"} (\`${updatedEntry.target}\`)`, true)
-            .addField(
-                "Moderator",
-                `${this.client.users.cache.get(updatedEntry.moderator)?.tag || interaction.user.tag} (\`${updatedEntry.moderator || interaction.user.id}\`)`,
-                true
-            )
-            .addField("Reason", updatedEntry.reason === "N/A" ? `Moderator do \`/reason ${updatedEntry.case_id} <reason>\`` : updatedEntry.reason, false)
-            .setFooter(`Entry id: ${updatedEntry.id}`);
+        const logEmbed = await entryCase.toEmbed(updatedEntry);
 
-        await interaction.followUp({ embeds: [logEmbed], content: "♾️ Case Update Preview" });
+        await interaction.followUp({
+            embeds: [logEmbed],
+            content: `[Jump to original message](https://discord.com/channels/${updatedEntry.guild}/${updatedEntry.channel}/${updatedEntry.message})`
+        });
         const logChannel = this.client.guilds.cache.get(server.id)?.channels.cache.get(updatedEntry.channel!) as GuildTextBasedChannel | undefined;
         const loggedMessage = await logChannel?.messages.fetch(updatedEntry.message!).catch(() => null);
         if (!loggedMessage || !loggedMessage.editable)

@@ -18,5 +18,6 @@ export enum ModLogCaseType {
     BAN,
     SOFTBAN,
     UNBAN,
-    MODERATED_NICK
+    MODERATED_NICK,
+    HACKBAN
 }

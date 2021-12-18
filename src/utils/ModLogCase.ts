@@ -57,6 +57,8 @@ export class ModLogCase {
 
     get type() {
         switch (this.data.type) {
+            case ModLogCaseType.HACKBAN:
+                return "Hack Ban";
             case ModLogCaseType.BAN:
                 return "Ban";
             case ModLogCaseType.KICK:
@@ -81,19 +83,19 @@ export class ModLogCase {
     get color(): ColorResolvable {
         switch (this.data.type) {
             case ModLogCaseType.BAN:
-                return "DARK_RED";
-            case ModLogCaseType.KICK:
+            case ModLogCaseType.HACKBAN:
                 return "RED";
+            case ModLogCaseType.KICK:
+                return "ORANGE";
             case ModLogCaseType.MODERATED_NICK:
                 return "BLURPLE";
             case ModLogCaseType.MUTE:
-                return "DARK_GOLD";
+                return "YELLOW";
             case ModLogCaseType.UNMUTE:
-                return "DARK_GREEN";
             case ModLogCaseType.UNBAN:
                 return "GREEN";
             case ModLogCaseType.SOFTBAN:
-                return "DARK_ORANGE";
+                return "DARK_RED";
             case ModLogCaseType.WARN:
                 return "GOLD";
             default:

@@ -1,26 +1,31 @@
 import { Client, CommandInteraction, MessageEmbed } from "discord.js";
 import { inject, injectable } from "tsyringe";
-
 import BaseCommand from "#base/BaseCommand";
 import { kClient } from "#utils/tokens";
+import EmojiUtils from "@moominbot/emojiutils";
 
 @injectable()
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>) {
         super({
-            name: "ping",
-            category: "General"
+            name: "enlarge",
+            category: "Fun"
         });
     }
 
     async execute(interaction: CommandInteraction) {
-        const timeout = Date.now() - interaction.createdTimestamp;
+        const emoji = interaction.options.getString("emoji", true);
+        const enlargedEmoji = EmojiUtils.enlarge(emoji);
+
+        if (!enlargedEmoji) {
+            return interaction.reply({ content: "Invalid Emoji provided.", ephemeral: true });
+        }
+
         const embed = new MessageEmbed()
-            .setTimestamp()
-            .setTitle("⏱️ | Pong!")
+            .setAuthor("Enlarged Emoji", this.client.user.displayAvatarURL())
+            .setImage(enlargedEmoji)
             .setColor("BLURPLE")
-            .setThumbnail(this.client.user.displayAvatarURL())
-            .setDescription(`HTTP: \`${timeout}ms\`\nWebSocket: \`${Math.floor(this.client.ws.ping)}ms\``);
+            .setFooter(`Requested by ${interaction.user.tag}`);
 
         await interaction.reply({ embeds: [embed] });
     }

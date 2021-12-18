@@ -24,11 +24,10 @@ export async function HelpCommandSub(
         .setThumbnail(client.user.displayAvatarURL())
         .addField("Name", command.name || commandName)
         .addField("Description", command.description || "N/A")
-        .addField("Auto Enabled", command.defaultPermission ? "✅" : "❌")
         .addField("Category", cache.find((x) => x.name.toLowerCase() === (command.name || commandName).toLowerCase())?.category || "Other")
         .addField("Options", command.options.map((m) => `\`${m.name}\``).join(", ") || "N/A")
         .setColor("BLURPLE")
-        .setFooter("Command created:")
+        .setFooter("Command created")
         .setTimestamp(command.createdTimestamp);
 
     return await interaction.followUp({ embeds: [embed] });

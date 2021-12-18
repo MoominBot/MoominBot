@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:14.1
+    restart: always
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    env_file: .env
+
+  bot:
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres:postgres
+      - redis:redis
+    volumes:
+      - ./:/code
+    env_file: .env
+
+  redis:
+    image: redis:alpine
+    restart: always
+    env_file: .env
+
+volumes:
+  postgres_db:

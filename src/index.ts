@@ -10,7 +10,7 @@ import { container } from "tsyringe";
 import Discord from "discord.js";
 import readdirp from "readdirp";
 
-import { kClient, kCommands, kRedis } from "#utils/tokens";
+import { kClient, kCommands, kRedis, kPrisma } from "#utils/tokens";
 import { __dirname } from "#utils/dirname";
 import logger from "#utils/logger";
 
@@ -19,22 +19,19 @@ import BaseCommand from "#base/BaseCommand";
 
 import DeployCommand from "./deployCommands.js";
 import redis from "./database/redis.js";
+import prisma from "./database/prisma.js";
 
 config();
 
 const client = new Discord.Client<true>({
-    intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES],
-    ws: {
-        properties: {
-            $browser: "Discord Android"
-        }
-    },
+    intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_PRESENCES],
     allowedMentions: {
         parse: []
     },
     shards: "auto",
     userAgentSuffix: ["MoominBot"],
     presence: {
+        status: "idle",
         activities: [
             {
                 name: "in Moomin Valley",
@@ -49,6 +46,7 @@ const commandsStore = new Discord.Collection<string, BaseCommand>();
 container.register(kClient, { useValue: client });
 container.register(kCommands, { useValue: commandsStore });
 container.register(kRedis, { useValue: redis });
+container.register(kPrisma, { useValue: prisma });
 
 const events = readdirp(`${__dirname(import.meta.url)}/events/DiscordEvents`, {
     fileFilter: ["*.js"],
@@ -68,6 +66,7 @@ for await (const eventFile of events) {
 
 for await (const commandFile of commands) {
     const command = container.resolve<BaseCommand>(await import(`file://${commandFile.fullPath}`).then((x) => x.default));
+    command.setPath(commandFile.fullPath);
     commandsStore.set(command.config.name, command);
     logger.info(`Loaded command ${command.config.name}!`);
 }

@@ -26,7 +26,8 @@
             "#base/*": ["src/base/*"],
             "#utils/*": ["src/utils/*"],
             "#interactions/*": ["src/interactions/*"],
-            "#jobs/*": ["src/jobs/*"]
+            "#jobs/*": ["src/jobs/*"],
+            "#database/*": ["src/database/*"]
         },
         "jsxFactory": "DiscordComponents.createComponent",
         "jsx": "react",

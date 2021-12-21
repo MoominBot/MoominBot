@@ -1,7 +1,7 @@
 import BaseCommand from "#base/BaseCommand";
 import { inject, injectable } from "tsyringe";
 import { kClient, kPrisma } from "#utils/tokens";
-import { Client, CommandInteraction, GuildTextBasedChannel, Permissions } from "discord.js";
+import { Client, CommandInteraction, Permissions, GuildTextBasedChannel } from "discord.js";
 import { ModLogCase } from "#utils/ModLogCase";
 import { ModLogCaseType } from "#utils/constants";
 import type { PrismaClient } from "@prisma/client";
@@ -10,22 +10,17 @@ import type { PrismaClient } from "@prisma/client";
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>, @inject(kPrisma) public prisma: PrismaClient) {
         super({
-            name: "nick",
+            name: "softban",
             category: "Moderation"
         });
     }
 
     async execute(interaction: CommandInteraction) {
-        await interaction.deferReply();
-        const nickname = (Math.random() + 1).toString(36).substring(5);
-        const user = interaction.options.getUser("user");
-        const member = await interaction.guild?.members.fetch(user!.id);
+        await interaction.deferReply({ ephemeral: true });
 
-        if (!interaction.memberPermissions?.has(Permissions.FLAGS.MANAGE_NICKNAMES)) {
+        if (!interaction.memberPermissions?.has(Permissions.FLAGS.BAN_MEMBERS)) {
             return await interaction.followUp({ content: "You don't have the required permissions to run this command", ephemeral: true });
         }
-
-        if (!member) return await interaction.followUp({ content: "Could not find that member", ephemeral: true });
 
         const server = await this.prisma.guild.findFirst({
             where: {
@@ -37,35 +32,49 @@ export default class extends BaseCommand {
             return await interaction.followUp({ content: "No mod log channel found for this server" });
         }
 
-        if (!(member.guild.me!.roles.highest.comparePositionTo(member.roles.highest) > 0)) {
-            return await interaction.followUp({ content: "I don't have permissions to update that member." });
-        }
-
         const modLogChannel = interaction.guild.channels.cache.get(server.modlog) as GuildTextBasedChannel;
         if (!modLogChannel?.permissionsFor(interaction.guild.me!)?.has([Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.EMBED_LINKS])) {
             return await interaction.followUp({ content: "I am not allowed to send messages to the mod log channel" });
         }
 
-        await member!.setNickname(`Moderated Nickname ${nickname}`);
+        const user = interaction.options.getUser("user", true);
+        const member = await interaction.guild?.members.fetch({
+            force: false,
+            user: user.id
+        });
 
-        const nickCase = new ModLogCase()
+        if (!member) return await interaction.followUp({ content: "Could not find that member.", ephemeral: true });
+        if (!member.bannable) return await interaction.followUp({ content: "Can't ban that member." });
+
+        const reason = interaction.options.getString("reason");
+        const purgeDays = interaction.options.getNumber("purge", false) ?? 0;
+        await member
+            .ban({
+                reason: reason || `Soft ban by ${interaction.user.tag}`,
+                days: purgeDays >= 0 && purgeDays <= 7 ? purgeDays : 0
+            })
+            .then((m) => {
+                return m.guild.bans.remove(m.id, `Softban by ${interaction.user.tag}`);
+            })
+            .catch(() => null);
+
+        const banCase = new ModLogCase()
             .setGuild(interaction.guildId)
             .setModerator(interaction.user.id)
-            .setReason("N/A")
+            .setReason(reason || "N/A")
             .setTimestamp()
             .setTarget(member.id)
-            .setType(ModLogCaseType.MODERATED_NICK);
+            .setType(ModLogCaseType.SOFTBAN);
 
         const entry = await this.prisma.modLogCase.create({
             data: {
-                ...nickCase.build()
+                ...banCase.build()
             }
         });
 
-        const logEmbed = await nickCase.toEmbed(entry);
+        const logEmbed = await banCase.toEmbed(entry);
 
-        await interaction.followUp({ content: `Sucessfully Moderated ${user!.tag}'s nickname.`, ephemeral: true });
-
+        await interaction.followUp({ content: `${user?.tag} has been banned` });
         await modLogChannel
             .send({ embeds: [logEmbed] })
             .then(async (m) => {

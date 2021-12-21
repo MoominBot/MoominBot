@@ -8,16 +8,20 @@ export interface CommandConfig {
 
 export default class BaseCommand {
     constructor(public readonly config: CommandConfig) {}
+
     get name() {
         return this.config.name;
     }
+
     get category() {
         return this.config.category || "Other";
     }
+
     get path() {
         const commandPath = this.config.path || __dirname(import.meta.url);
         return commandPath;
     }
+
     setPath(p: string) {
         this.config.path = p;
     }

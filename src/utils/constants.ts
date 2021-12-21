@@ -9,3 +9,15 @@ export enum Emojis {
 }
 
 export const TOKEN_PLACEHOLDER = "mfa.VkO_2G4Qv3T--NO--lWetW_tjND--TOKEN--QFTm6YGtzq9PH--4U--tG0";
+
+export enum ModLogCaseType {
+    WARN,
+    MUTE,
+    UNMUTE,
+    KICK,
+    BAN,
+    SOFTBAN,
+    UNBAN,
+    MODERATED_NICK,
+    HACKBAN
+}

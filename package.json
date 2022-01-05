@@ -72,7 +72,7 @@
     "readdirp": "^3.6.0",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",
-    "utf-8-validate": "^5.0.7",
+    "utf-8-validate": "^5.0.8",
     "winston": "^3.3.3",
     "zlib-sync": "^0.1.7"
   },

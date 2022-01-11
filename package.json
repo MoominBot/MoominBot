@@ -73,7 +73,7 @@
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",
     "utf-8-validate": "^5.0.7",
-    "winston": "^3.3.3",
+    "winston": "^3.4.0",
     "zlib-sync": "^0.1.7"
   },
   "engines": {

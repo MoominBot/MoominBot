@@ -61,7 +61,7 @@
     "discord-api-types": "^0.25.2",
     "discord.js": "^13.3.1",
     "discord.tsx": "^2.0.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^14.1.0",
     "erlpack": "discord/erlpack",
     "fuse.js": "^6.4.6",
     "ioredis": "^4.28.2",

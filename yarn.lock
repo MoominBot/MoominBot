@@ -632,10 +632,10 @@ discord.js@^13.3.1:
     node-fetch "^2.6.1"
     ws "^8.2.3"
 
-discord.tsx@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/discord.tsx/-/discord.tsx-2.0.0.tgz#3788697e5ee0bdb09b9df72f802c7a8f348bce98"
-  integrity sha512-zBeFR8K4rtH9gukBGUE1Y1bHcCL9hn2s3WVVH5U/6pLr7zTxrWY044UY4ZN3/MA+kID9Us0p8v/b/z0nKxCmTA==
+discord.tsx@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/discord.tsx/-/discord.tsx-3.0.0.tgz#2ff181801a704cf10005a79293acde26bdd89766"
+  integrity sha512-c9C+NxXrKHGSZrhImtbLjUf37w0+ReXQBW/qe91UUiI0OOGQlpSPK2fiW1e0ZblhHC4xNPpyOEh1iX22E3M9gQ==
 
 doctrine@^3.0.0:
   version "3.0.0"

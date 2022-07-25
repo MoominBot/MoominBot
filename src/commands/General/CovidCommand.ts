@@ -5,16 +5,16 @@ import fetch from "node-fetch";
 import BaseCommand from "#base/BaseCommand";
 import { kClient } from "#utils/tokens";
 
-interface APIResponse{
-    country: string,
-    cases: number,
-    todayCases: number,
-    deaths: number,
-    todayDeaths: number,
-    recovered: number,
-    active: number,
-    critical: number
-    totalTests: number
+interface APIResponse {
+    country: string;
+    cases: number;
+    todayCases: number;
+    deaths: number;
+    todayDeaths: number;
+    recovered: number;
+    active: number;
+    critical: number;
+    totalTests: number;
 }
 
 @injectable()
@@ -30,10 +30,7 @@ export default class extends BaseCommand {
         const country = interaction.options.getString("country") ?? "Nepal";
         const data = (await fetch(`https://coronavirus-19-api.herokuapp.com/countries/${country}`).then((res) => res.json())) as APIResponse;
         const actionRow = new MessageActionRow().addComponents(
-            new MessageButton()
-            .setLabel("Stay Safe!")
-            .setURL("https://www.who.int/emergencies/diseases/novel-coronavirus-2019")
-            .setStyle("LINK")
+            new MessageButton().setLabel("Stay Safe!").setURL("https://www.who.int/emergencies/diseases/novel-coronavirus-2019").setStyle("LINK")
         );
         const embed = new MessageEmbed()
             .setAuthor(`COVID-19 Data of ${data.country}`, this.client.user.displayAvatarURL())
@@ -56,12 +53,12 @@ export default class extends BaseCommand {
                     inline: true
                 },
                 {
-                    name: "Today's Cases",
+                    name: "Cases Today",
                     value: data.todayCases.toString(),
                     inline: true
                 },
                 {
-                    name: "Today's Deaths",
+                    name: "Deaths Today",
                     value: data.todayDeaths.toString(),
                     inline: true
                 },

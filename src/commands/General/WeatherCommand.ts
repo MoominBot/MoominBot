@@ -58,9 +58,9 @@ export default class extends BaseCommand {
                 },
                 {
                     name: "Wind",
-                    value: `${Emojis.OFFLINE} Speed: ${data.wind.speed.toFixed(0)} km/h\n${Emojis.OFFLINE} Degree: ${data.wind.deg.toFixed(0)} °\n${
-                        Emojis.OFFLINE
-                    } Gust: ${data.wind.gust ?? 0} km/h`,
+                    value: `${Emojis.OFFLINE} Speed: ${data.wind.speed.toFixed(0)} km/h\n${Emojis.OFFLINE} Degree: ${data.wind.deg.toFixed(0)} °\n${Emojis.OFFLINE} Gust: ${
+                        data.wind.gust ?? 0
+                    } km/h`,
                     inline: true
                 },
                 {

@@ -54,7 +54,7 @@ export default class extends BaseCommand {
                 },
                 {
                     name: "BS",
-                    value: `${Emojis.OFFLINE} ${data.bs.toString()}`,
+                    value: `${Emojis.OFFLINE} ${data.bs.toString().split(".").reverse().join("-")}`,
                     inline: false
                 }
             );

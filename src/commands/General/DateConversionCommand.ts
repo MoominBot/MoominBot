@@ -1,4 +1,4 @@
-import { Client, CommandInteraction, MessageEmbed } from "discord.js";
+import { Client, CommandInteraction, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { inject, injectable } from "tsyringe";
 import fetch from "node-fetch";
 
@@ -22,6 +22,8 @@ export default class extends BaseCommand {
     }
 
     async execute(interaction: CommandInteraction) {
+        const actionRow = new MessageActionRow().addComponents([new MessageButton().setLabel("Powered by NepaliPatro").setURL("https://nepalipatro.com.np").setStyle("LINK")]);
+
         const date = interaction.options.getString("date")!;
         const basedOn = interaction.options.getString("based");
 
@@ -45,7 +47,6 @@ export default class extends BaseCommand {
         const embed = new MessageEmbed()
             .setAuthor("Date Conversion", this.client.user.displayAvatarURL())
             .setColor("BLURPLE")
-            .setFooter("Powered by NepaliPatro")
             .addFields(
                 {
                     name: "AD",
@@ -59,6 +60,6 @@ export default class extends BaseCommand {
                 }
             );
 
-        await interaction.reply({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed], components: [actionRow] });
     }
 }

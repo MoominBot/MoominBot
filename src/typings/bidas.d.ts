@@ -43,7 +43,6 @@ interface RawResponse {
     based_on: string;
     gh: number;
     image?: any;
-
 }
 
-export interface APIResponse extends Array<RawResponse> { }
+export interface APIResponse extends Array<RawResponse> {}

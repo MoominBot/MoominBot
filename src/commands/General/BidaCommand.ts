@@ -1,0 +1,42 @@
+import { Client, CommandInteraction, MessageEmbed } from "discord.js";
+import { inject, injectable } from "tsyringe";
+
+import BaseCommand from "#base/BaseCommand";
+import { kClient } from "#utils/tokens";
+import Bidas from "#utils/bidas";
+
+const monthMap = {
+    वैशाख: 1,
+    जेठ: 2,
+    असार: 3,
+    साउन: 4,
+    भदौ: 5,
+    असोज: 6,
+    कार्तिक: 7,
+    मंसिर: 8,
+    पुस: 9,
+    माघ: 10,
+    फागुन: 11,
+    चैत: 12
+};
+
+@injectable()
+export default class extends BaseCommand {
+    constructor(@inject(kClient) public readonly client: Client<true>) {
+        super({
+            name: "bida",
+            category: "General"
+        });
+    }
+
+    async execute(interaction: CommandInteraction) {
+        const month = interaction.options.getInteger("month")!;
+        const data = await Bidas.get();
+        const months = Object.entries(monthMap);
+        const bidas = data!.filter((itm) => itm.bs_month === month - 1);
+        const embed = new MessageEmbed().setTitle(`Bidas for ${months.find((itm) => itm[1] === month - 1)![0]}`).setColor("BLURPLE");
+        embed.setThumbnail("https://i.ytimg.com/vi/jLJR26ha65g/hqdefault.jpg");
+        bidas.forEach((element) => embed.addField(`${element.title}`, `${element.bs.split(".").reverse().join("-")}`, true));
+        await interaction.reply({ embeds: [embed] });
+    }
+}

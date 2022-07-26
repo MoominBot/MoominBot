@@ -1,7 +1,7 @@
 import { ApplicationCommandData } from "discord.js";
 import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
 
-const monthMap = {
+export const monthMap = {
     वैशाख: 1,
     जेठ: 2,
     असार: 3,

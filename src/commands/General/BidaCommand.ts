@@ -4,21 +4,7 @@ import { inject, injectable } from "tsyringe";
 import BaseCommand from "#base/BaseCommand";
 import { kClient } from "#utils/tokens";
 import Bidas from "#utils/bidas";
-
-const monthMap = {
-    वैशाख: 1,
-    जेठ: 2,
-    असार: 3,
-    साउन: 4,
-    भदौ: 5,
-    असोज: 6,
-    कार्तिक: 7,
-    मंसिर: 8,
-    पुस: 9,
-    माघ: 10,
-    फागुन: 11,
-    चैत: 12
-};
+import { monthMap } from "#interactions/slash/General/BidaCommand";
 
 @injectable()
 export default class extends BaseCommand {

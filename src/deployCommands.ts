@@ -8,7 +8,7 @@ import logger from "#utils/logger";
 
 export default async function DeployCommands() {
     const rest = new REST({
-        version: "9"
+        version: "10"
     }).setToken(process.env.DISCORD_TOKEN!);
 
     try {

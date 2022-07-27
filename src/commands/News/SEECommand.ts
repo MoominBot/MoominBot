@@ -25,7 +25,7 @@ export default class extends BaseCommand {
             method: "POST"
         }).then((res) => res.json())) as Response;
         if (response.c === null) {
-            return await interaction.reply(`${Emojis.ERROR_DEFAULT} Invalid Symbol Number`);
+            return await interaction.reply({ content: `${Emojis.ERROR_DEFAULT} Invalid Symbol Number`, ephemeral: true });
         }
 
         const embed = new MessageEmbed()

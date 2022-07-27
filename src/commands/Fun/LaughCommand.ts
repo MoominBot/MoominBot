@@ -4,6 +4,10 @@ import BaseCommand from "#base/BaseCommand";
 import { kClient } from "#utils/tokens";
 import fetch from "node-fetch";
 
+interface LaughResponse {
+    image: string;
+}
+
 @injectable()
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>) {
@@ -15,8 +19,7 @@ export default class extends BaseCommand {
 
     async execute(interaction: CommandInteraction) {
         const user = interaction.options.getUser("user") || interaction.user!;
-        // @ts-expect-error Image is not nullable or undefined
-        const { image } = await fetch("http://api.nekos.fun:8080/api/laugh").then((res) => res.json());
+        const { image } = (await fetch("http://api.nekos.fun:8080/api/laugh").then((res) => res.json())) as LaughResponse;
 
         const embed = new MessageEmbed()
             .setAuthor(`${interaction.user.tag} laughs ${user === interaction.user ? "randomly." : `at ${user.tag}`}`)

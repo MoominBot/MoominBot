@@ -4,6 +4,10 @@ import BaseCommand from "#base/BaseCommand";
 import { kClient } from "#utils/tokens";
 import fetch from "node-fetch";
 
+interface HugResponse {
+    image: string;
+}
+
 @injectable()
 export default class extends BaseCommand {
     constructor(@inject(kClient) public readonly client: Client<true>) {
@@ -18,8 +22,7 @@ export default class extends BaseCommand {
         if (user === interaction.user) {
             return await interaction.reply("You can't hug yourself, you loner!");
         }
-        // @ts-expect-error Image is not nullable or undefined
-        const { image } = await fetch("http://api.nekos.fun:8080/api/hug").then((res) => res.json());
+        const { image } = (await fetch("http://api.nekos.fun:8080/api/hug").then((res) => res.json())) as HugResponse;
 
         const embed = new MessageEmbed()
             .setAuthor(`${interaction.user.tag} hugs ${user.tag}, Aww so sweet!`, interaction.user.displayAvatarURL())

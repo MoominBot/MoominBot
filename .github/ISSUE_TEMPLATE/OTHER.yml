@@ -17,6 +17,6 @@ body:
     id: extrainfo
     attributes:
       label: Additional information
-      description: Is there anything else I should know about this issue?
+      description: Is there anything else we should know about this issue?
     validations:
       required: false
